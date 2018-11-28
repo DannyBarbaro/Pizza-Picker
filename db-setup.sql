@@ -59,6 +59,3 @@ CREATE TABLE Preference (
   PRIMARY KEY (topping,set_id),
   FOREIGN KEY (set_id) REFERENCES Preference_Set(id)
 );
-
--- prepare queries
-prepare get_history from 'select order_id, date from Food_Order where user = ?';
