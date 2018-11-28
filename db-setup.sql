@@ -67,6 +67,32 @@ LOCK TABLES `Food_Order` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Friends`
+--
+
+DROP TABLE IF EXISTS `Friends`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Friends` (
+  `friend1` varchar(32) NOT NULL,
+  `friend2` varchar(32) NOT NULL,
+  PRIMARY KEY (`friend1`,`friend2`),
+  KEY `friend2` (`friend2`),
+  CONSTRAINT `Friends_ibfk_1` FOREIGN KEY (`friend1`) REFERENCES `User` (`username`),
+  CONSTRAINT `Friends_ibfk_2` FOREIGN KEY (`friend2`) REFERENCES `User` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Friends`
+--
+
+LOCK TABLES `Friends` WRITE;
+/*!40000 ALTER TABLE `Friends` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Friends` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Preference`
 --
 
@@ -173,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-19 11:28:02
+-- Dump completed on 2018-11-27 21:59:36
