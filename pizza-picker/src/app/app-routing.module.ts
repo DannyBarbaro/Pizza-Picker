@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { UserHomepageComponent } from './user-homepage/user-homepage.component';
+import { UserPageComponent } from './user-page/user-page.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
@@ -10,7 +10,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'home', component: HomeComponent },
-  { path: 'userpage', component: UserHomepageComponent },
+  { path: 'userpage', component: UserPageComponent },
 ];
 
 @NgModule({

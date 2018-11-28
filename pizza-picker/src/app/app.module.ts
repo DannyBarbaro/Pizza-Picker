@@ -6,15 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginSignupComponent } from './login-signup/login-signup.component';
 import { ModalModule } from 'ngx-bootstrap';
-import { UserHomepageComponent } from './user-homepage/user-homepage.component';
+import { UserPageComponent } from './user-page/user-page.component';
 import { HomeComponent } from './home/home.component';
+import { UserHomeComponent } from './user-page/user-home/user-home.component';
+import { UserFriendsComponent } from './user-page/user-friends/user-friends.component';
+import { UserStatsComponent } from './user-page/user-stats/user-stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginSignupComponent,
-    UserHomepageComponent,
-    HomeComponent
+    UserPageComponent,
+    HomeComponent,
+    UserHomeComponent,
+    UserFriendsComponent,
+    UserStatsComponent
   ],
   imports: [
     BrowserModule,
