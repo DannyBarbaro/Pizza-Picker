@@ -37,7 +37,7 @@ def main_page():
 
 @app.route('/login')
 def login_page():
-    returrn render_template('login_page.html')
+    return render_template('login_page.html')
 
 @app.route('/<username>/preferences')
 def prefs_page(username):
