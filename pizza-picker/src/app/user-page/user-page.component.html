@@ -1,0 +1,23 @@
+<nav class="navbar fixed-top navbar-dark bg-dark">
+  <form>
+    <span class="navbar-brand mb-0 h1">{{ username }}</span>
+    <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'userhome'" (click)="changeView('userhome')">Home</button>
+    <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'friends'" (click)="changeView('friends')">Friends</button>
+    <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'stats'" (click)="changeView('stats')">Stats</button>
+  </form>
+  <form>
+    <button type="button" class="btn btn-primary" (click)="signOut()">Sign out</button>
+  </form>
+</nav>
+
+<div style="padding-top: 40px">
+  <ng-container *ngIf="viewState === 'userhome'">
+    <app-user-home></app-user-home>
+  </ng-container>
+  <ng-container *ngIf="viewState === 'friends'">
+    <app-user-friends></app-user-friends>
+  </ng-container>
+  <ng-container *ngIf="viewState === 'stats'">
+    <app-user-stats></app-user-stats>
+  </ng-container>
+</div>
