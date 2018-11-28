@@ -1,0 +1,40 @@
+<div style="text-align:center">
+  <nav class="navbar fixed-top navbar-light" style="background-color: transparent;">
+    <br>
+    <ul>
+      <button type="button" class="btn btn-primary" (click)="openModal(true)">Sign in</button>
+    </ul>
+  </nav>
+  <h1>Pizza Picker!</h1>
+  <h5>Ordering simplified.</h5>
+  <div class="col-md-10" style="margin-left: auto; margin-right: auto; height: 50%">
+    <carousel>
+      <slide>
+        <img src="assets/images/pizza1.jpg" alt="first slide" style="display: block; width: 100%; height: 50%;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="-webkit-text-stroke-color: black; -webkit-text-stroke-width: 0.7px; ">Make Sharing Easy</h1>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pizza2.jpg" alt="second slide" style="display: block; width: 100%; height: 100%;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="-webkit-text-stroke-color: black; -webkit-text-stroke-width: 0.7px; ">This Could Be Yours</h1>
+        </div>
+      </slide>
+      <slide>
+        <img src="assets/images/pizza3.jpg" alt="third slide" style="display: block; width: 100%; height: 100%;">
+        <div class="carousel-caption d-none d-md-block">
+          <h1 style="-webkit-text-stroke-color: black; -webkit-text-stroke-width: 0.7px; ">Grab A Slice!</h1>
+        </div>
+      </slide>
+    </carousel>
+  </div>
+  <h2 style="padding-top: 15px;">What is It?</h2>
+  <p style="font-size: 20px">Ordering food as a group can be a tough task. With everyone having their own preferences,
+    pleasing everyone with one reasonable sized order can seem almost impossible. Enter the Pizza
+    Picker! Your order is now as easy as listing everyone's usernames! When the group is set,
+    the picker uses each user's preferences to design an order that is perfect for everyone.
+    Less time. Less hassle. More pizza!
+  </p>
+  <button type="button" class="btn btn-primary" style="height: 70px" (click)="openModal(false)">Sign Me Up!</button>
+</div>
