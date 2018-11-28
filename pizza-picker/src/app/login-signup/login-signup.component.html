@@ -1,0 +1,41 @@
+<ng-container *ngIf="viewSwitcher === true">
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">Welcome Back!</h2>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>Username:</h4>
+    <input type="text" class="form-control" placeholder="Username">
+    <h4>Password:</h4>
+    <input type="password" class="form-control" placeholder="Password">
+    <div style="padding-top: 10px;">
+      <button type="button" class="btn btn-primary" style="padding-top: 10px;" (click)="signIn()">Sign in</button>
+      <label style="padding-left: 10px; color: red">{{ entryError }}</label>
+    </div>
+    <button type="button" class="btn btn-link" (click)="switchModal()">New here? Sign Up!</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="viewSwitcher === false">
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">Welcome to Pizza Picker!</h2>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4>Username:</h4>
+    <input type="text" class="form-control" placeholder="Username">
+    <h4>Password:</h4>
+    <input type="password" class="form-control" placeholder="Password">
+    <h4>Confirm Password:</h4>
+    <input type="password" class="form-control" placeholder="Password">
+    <div style="padding-top: 10px;">
+      <button type="button" class="btn btn-primary" style="padding-top: 10px;" (click)="signUp()">Sign up</button>
+      <label style="padding-left: 10px; color: red">{{ signUpError }}</label>
+    </div>
+    <button type="button" class="btn btn-link" (click)="switchModal()">Already have an Account? Sign In!</button>
+  </div>
+</ng-container>
