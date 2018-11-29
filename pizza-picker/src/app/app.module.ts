@@ -13,6 +13,7 @@ import { UserFriendsComponent } from './user-page/user-friends/user-friends.comp
 import { UserStatsComponent } from './user-page/user-stats/user-stats.component';
 import {FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ButtonsModule,
     CarouselModule.forRoot(),
     PopoverModule.forRoot(),
     ModalModule.forRoot(),

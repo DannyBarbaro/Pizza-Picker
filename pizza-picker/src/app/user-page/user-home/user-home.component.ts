@@ -13,12 +13,26 @@ export class UserHomeComponent implements OnInit {
     {name: "Hawaiian", select: true},
     {name: "Supreme", select: false},
   ];
+
+  radioModel = 'Middle';
+
   constructor() { }
 
   ngOnInit() {
   }
 
   deletePref(name: String) {
+    
+  }
+
+  editPref(name: String) {
+
+  }
+
+  openPref() {
+  }
+
+  savePref() {
     
   }
 }
