@@ -29,10 +29,17 @@ CREATE TABLE Allergy (
 
 CREATE TABLE Food_Order (
   order_id int(11) NOT NULL AUTO_INCREMENT,
-  user varchar(32) NOT NULL,
   date datetime,
-  PRIMARY KEY (order_id),
-  FOREIGN KEY (user) REFERENCES User(username)
+  PRIMARY KEY (order_id)
+);
+
+CREATE TABLE Order_Details (
+  order_id int(11) NOT NULL,
+  user varchar(32) NOT NULL,
+  topping varchar(32) NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES Food_Order(order_id),
+  FOREIGN KEY (user) REFERENCES User(username),
+  FOREIGN KEY (topping) REFERENCES Topping(name)
 );
 
 CREATE TABLE Friends (
@@ -47,7 +54,8 @@ CREATE TABLE Preference_Set (
   id int(11) NOT NULL AUTO_INCREMENT,
   user varchar(32) NOT NULL,
   title varchar(32) DEFAULT NULL,
-  is_default tinyint(1) DEFAULT NULL,
+  is_active tinyint(1) DEFAULT NULL,
+  is_dislike tinyint(1) DEFAULT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (user) REFERENCES User(username)
 );
