@@ -6,14 +6,55 @@
       <th style="font-size: 25px">Current Preference</th>
       <th style="font-size: 25px">Preference Name</th>
       <th></th>
+      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let pref of preferences">
-          <td><input type="radio" name="radiogroup" [checked]="pref.select"></td>
-          <td style="font-size: 25px">{{ pref.name }}</td>
-          <td><button type="button" class="btn btn-danger" (click)="deletePref(pref.name)">Delete</button></td>
+        <td><input type="radio" name="radiogroup" [checked]="pref.select"></td>
+        <td style="font-size: 25px">{{ pref.name }}</td>
+        <td><button type="button" class="btn btn-primary" (click)="editPref(pref.name); lgModal.show();">Edit</button></td>
+        <td><button type="button" class="btn btn-danger" (click)="deletePref(pref.name)">Delete</button></td>
       </tr>
     </tbody>
   </table>
 </div>
-<button type="button" class="btn btn-primary">New Preference Set</button>
+<button type="button" class="btn btn-primary" (click)="openPref(); lgModal.show()">New Preference Set</button>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Preference Page</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>Preference Name:</h6>
+        <input type="text" style="width: 50%" class="form-control" placeholder="Every good pizza needs a name!">
+        <ul class="list-group" style="padding-top: 10px">
+          <li class="list-group-item">
+            <h6>Pepperoni</h6>
+            <div class="btn-group">
+              <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="Left" tabindex="0" role="button">Dislike</label>
+              <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="Middle" tabindex="0" role="button">Neutral</label>
+              <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="Right" tabindex="0" role="button">Like</label>
+            </div>
+          </li>
+        </ul>
+        <!-- <li class="list-group-item" *ngFor="let top in toppings">
+            <h6>{{ top.name }}</h6>
+            <div class="btn-group">
+                <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="d" tabindex="0" role="button">Dislike</label>
+                <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="n" tabindex="0" role="button">Neutral</label>
+                <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="l" tabindex="0" role="button">Like</label>
+              </div>
+        </li> -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default mr-auto" (click)="lgModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="savePref(); lgModal.hide()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
