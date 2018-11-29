@@ -1,3 +1,19 @@
-<p>
-  user-home works!
-</p>
+<h1>Welcome to Pizza Picker</h1>
+<button type="button" class="btn btn-primary">Create New Order</button>
+<div style="padding-top: 20px; padding-bottom: 20px;">
+  <table class="table table-hover">
+    <thead>
+      <th style="font-size: 25px">Current Preference</th>
+      <th style="font-size: 25px">Preference Name</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pref of preferences">
+          <td><input type="radio" name="radiogroup" [checked]="pref.select"></td>
+          <td style="font-size: 25px">{{ pref.name }}</td>
+          <td><button type="button" class="btn btn-danger" (click)="deletePref(pref.name)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<button type="button" class="btn btn-primary">New Preference Set</button>

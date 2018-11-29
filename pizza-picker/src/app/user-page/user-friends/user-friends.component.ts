@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserFriendsComponent implements OnInit {
 
+  friendAddResult: String = "";
+  addField: String = "";
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  addFriend(){
+
+  }
+
+  unfriend(name: String) {
+    
   }
 
 }
