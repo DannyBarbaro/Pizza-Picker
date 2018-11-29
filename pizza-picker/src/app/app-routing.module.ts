@@ -10,7 +10,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'home', component: HomeComponent },
-  { path: 'userpage', component: UserPageComponent },
+  { path: 'userpage/:username', component: UserPageComponent },
 ];
 
 @NgModule({

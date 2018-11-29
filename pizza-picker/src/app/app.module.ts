@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { UserHomeComponent } from './user-page/user-home/user-home.component';
 import { UserFriendsComponent } from './user-page/user-friends/user-friends.component';
 import { UserStatsComponent } from './user-page/user-stats/user-stats.component';
+import {FormsModule} from '@angular/forms'
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { UserStatsComponent } from './user-page/user-stats/user-stats.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     CarouselModule.forRoot(),
     PopoverModule.forRoot(),
     ModalModule.forRoot(),
