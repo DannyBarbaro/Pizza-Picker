@@ -13,6 +13,7 @@ export class UserPageComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    this.username = this.router.url.split('/')[2];
   }
 
   signOut() {

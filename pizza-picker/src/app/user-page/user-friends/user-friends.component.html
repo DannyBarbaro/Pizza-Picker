@@ -1,3 +1,25 @@
-<p>
-  user-friends works!
-</p>
+<h1>Nothing Goes Together Like Food and Friends!</h1>
+<form class="form-inline">
+  <input style="width: 30%" type="text" class="form-control" placeholder="Type Username" [(ngModel)]="addField"
+    [ngModelOptions]="{standalone: true}">
+  <button type="button" class="btn btn-primary" (click)="addFriend()">Add as Friend</button>
+  <label>{{ friendAddResult }}</label>
+</form>
+<div style="padding-top: 20px;">
+  <table class="table table-hover">
+    <thead>
+      <th style="font-size: 20px">Friend Names</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-size: 25px">Name</td>
+        <td><button type="button" class="btn btn-danger" (click)="unfriend(friend.name)">Unfriend</button></td>
+      </tr>
+      <!-- <tr *ngFor="let friend of friends">
+        <td style="font-size: 25px">{{ friend.name }}</td>
+        <td><button type="button" class="btn btn-danger" (click)="unfriend(friend.name)">Unfriend</button></td>
+      </tr> -->
+    </tbody>
+  </table>
+</div>

@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserStatsComponent implements OnInit {
 
+  orders: String = "17";
+  bestfriend: String = "Niha";
+  topToppings: String = "Pineapple and Ham";
+  
   constructor() { }
 
   ngOnInit() {
