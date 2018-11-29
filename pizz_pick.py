@@ -1,7 +1,8 @@
 import configparser
 import pymysql
 import math
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+#from flask_cors import CORS
 
 # Read configuration from file.
 config = configparser.ConfigParser()
@@ -9,6 +10,7 @@ config.read('config.ini')
 
 # Set up application server.
 app = Flask(__name__)
+#CORS(app)
 
 # Create a function for fetching data from the database.
 def sql_query(sql):
@@ -34,11 +36,11 @@ def sql_execute(sql):
 # routing user to different things
 @app.route('/availableUser/<username>')
 def check_user(username):
-    print(request.form)
     # query database for if the user under username exists
     # if exists, return true
     # else, return false
-    return True
+    print("thang")
+    return jsonify(result="True")
 
 def make_pizzas(prefs_list):
     """
