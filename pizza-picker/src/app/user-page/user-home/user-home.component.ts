@@ -33,6 +33,10 @@ export class UserHomeComponent implements OnInit {
   }
 
   savePref() {
+
+  }
+
+  placeOrder() {
     
   }
 }
