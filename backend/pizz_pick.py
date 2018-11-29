@@ -53,7 +53,7 @@ def make_pizzas(prefs_list):
     anyone.  Calculates the size of the pizza using number of standard size
     slices, and assumes the magical constant of average 3.5 slices per person,
     rounded down to the nearest multiple of 2 with a minimum of 8.  The acceptable
-    range of sizes are small (8), medium (10), large (12), and extra large 14).f88b19197bb723ad6eef9d2fdf082a986b8663a3:backend/pizz_pick.py
+    range of sizes are small (8), medium (10), large (12), and extra large 14).
 
     Returns a list of pizzas.  Each pizza is a list of tuples containing the
     toppings on a slice and how many slices have those toppings.
