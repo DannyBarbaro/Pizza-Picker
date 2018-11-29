@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserHomeComponent implements OnInit {
 
+  preferences: Object[] = [
+    {name: "Meaty", select: false},
+    {name: "Cheesey", select: false},
+    {name: "Hawaiian", select: true},
+    {name: "Supreme", select: false},
+  ];
   constructor() { }
 
   ngOnInit() {
   }
 
+  deletePref(name: String) {
+    
+  }
 }

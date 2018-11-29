@@ -1,3 +1,24 @@
-<p>
-  user-stats works!
-</p>
+<h1>Pizza Stats. Because What is Eating Without Some Analytics?</h1>
+<div class="card text-white bg-primary" style="width: 25rem; text-align: center; margin-left: auto; margin-right: auto;">
+  <div class="card-body">
+    <h5 class="card-title" style="font-size: 40px">Your Total Orders:</h5>
+    <h6 class="card-subtitle mb-2">Number of times you have used the picker</h6>
+    <p class="card-text" style="font-size: 30px">{{ orders }}</p>
+  </div>
+</div>
+<div style="padding-top: 20px; padding-bottom: 20px;">
+  <div class="card text-white bg-success" style="width: 30rem; text-align: center; margin-left: auto; margin-right: auto;">
+    <div class="card-body">
+      <h5 class="card-title" style="font-size: 40px">Your Primary Pizza Pal:</h5>
+      <h6 class="card-subtitle mb-2">Who you've made the most orders with</h6>
+      <p class="card-text" style="font-size: 30px">{{ bestfriend }}</p>
+    </div>
+  </div>
+</div>
+<div class="card text-white bg-danger" style="width: 25rem; text-align: center; margin-left: auto; margin-right: auto;">
+  <div class="card-body">
+    <h5 class="card-title" style="font-size: 40px">Favorite Toppings:</h5>
+    <h6 class="card-subtitle mb-2">What your pizza most likely includes</h6>
+    <p class="card-text" style="font-size: 30px">{{ topToppings }}</p>
+  </div>
+</div>
