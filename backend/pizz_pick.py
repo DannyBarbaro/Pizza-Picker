@@ -223,6 +223,14 @@ def make_new_preference_set(username):
 
     return jsonify(set_id)
 
+@app.route('/removePref/<set_id>', methods=['DELETE'])
+def delete_preference_set(set_id):
+    #Deletes the preferences and preference set with the specified ID
+    sql_execute(qt.delete_preference, (set_id))
+    sql_execute(qt.delete_preference_set, (set_id))
+    return make_response()
+
+
 @app.route('/allergies/<username>')
 def get_user_allergies(username):
     #query for all toppings the user is allergic to
