@@ -37,6 +37,14 @@ export class UserHomeComponent implements OnInit {
   }
 
   placeOrder() {
+
+  }
+
+  addToOrder() {
+
+  }
+
+  removeFromOrder() {
     
   }
 }
