@@ -27,18 +27,18 @@ export class LoginSignupComponent implements OnInit {
 
   signIn() {
     //http call for log in
-    let loginSuccessful: Boolean = false;
     if (this.username.length !== 0 && this.password.length !== 0) {
       const headers = new HttpHeaders().set("user", <string>this.username).set("pass", <string>this.password);
-      this.http.get<Boolean>('http://localhost:8080/auth', {headers})
-        .subscribe((data: Boolean) => loginSuccessful = data);
-      if (loginSuccessful) {
-        //route to the next page
-        this.bsModalRef.hide();
-        this.router.navigateByUrl('/userpage/' + this.username);
-      } else {
-        this.entryError = "Incorrect Username or Password";
-      }
+      this.http.get<Boolean>('http://localhost:8080/auth', { headers })
+        .subscribe((data: Boolean) => {
+          if (data) {
+            //route to the next page
+            this.bsModalRef.hide();
+            this.router.navigateByUrl('/userpage/' + this.username);
+          } else {
+            this.entryError = "Incorrect Username or Password";
+          }
+        });
     } else {
       this.entryError = "Please Fill in the Fields";
     }
@@ -46,22 +46,23 @@ export class LoginSignupComponent implements OnInit {
 
   signUp() {
     //http call to check if username is available
-    let usernameAvailable: Boolean = true;
     let passwordMatch: boolean = this.newPassword === this.newPasswordConfirm;
     if (this.newUsername.length !== 0 && this.newPassword.length !== 0 && this.newPasswordConfirm.length !== 0) {
       if (this.newUsername.length <= 32) {
-        this.http.get<Boolean>('http://localhost:8080/availableUser/' + this.newUsername)
-          .subscribe((data: Boolean) => usernameAvailable = data);
-        if (usernameAvailable) {
-          if (passwordMatch) {
-            this.bsModalRef.hide();
-            this.router.navigateByUrl('/userpage/' + this.newUsername);
-          } else {
-            this.signUpError = "The given Passwords do not Match"
-          }
-        } else {
-          this.signUpError = "Sorry that Username is Taken";
-        }
+        this.http.get<Boolean>('http://localhost:8080/userExists/' + this.newUsername)
+          .subscribe((data: Boolean) => {
+            if (!data) {
+              if (passwordMatch) {
+                this.bsModalRef.hide();
+                this.router.navigateByUrl('/userpage/' + this.newUsername);
+              } else {
+                this.signUpError = "The given Passwords do not Match"
+              }
+            } else {
+              this.signUpError = "Sorry that Username is Taken";
+            }
+          });
+
       } else {
         this.signUpError = "Please limit username to 32 Characters"
       }

@@ -12,14 +12,10 @@
       <th></th>
     </thead>
     <tbody>
-      <tr>
-        <td style="font-size: 25px">Name</td>
-        <td><button type="button" class="btn btn-danger" (click)="unfriend(friend.name)">Unfriend</button></td>
+      <tr *ngFor="let friend of friends">
+        <td style="font-size: 25px">{{ friend }}</td>
+        <td><button type="button" class="btn btn-danger" (click)="unfriend(friend)">Unfriend</button></td>
       </tr>
-      <!-- <tr *ngFor="let friend of friends">
-        <td style="font-size: 25px">{{ friend.name }}</td>
-        <td><button type="button" class="btn btn-danger" (click)="unfriend(friend.name)">Unfriend</button></td>
-      </tr> -->
     </tbody>
   </table>
 </div>
