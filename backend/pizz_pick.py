@@ -66,10 +66,11 @@ def get_friends(username):
     # query for all friends under the account with <username>
     # return a json with a list of the friends
     result = sql_query(qt.get_friends, (username))
+    fixed = []
     #this isn't quite working yet
-    for i in range(len(result)):
-        result[i] = result[i][0]
-    return result
+    for friend in result:
+        fixed.append(friend[0])
+    return jsonify(fixed)
 
 @app.route('/friend/<username1>/<username2>', methods=['POST'])
 def make_new_friend(username1, username2):
@@ -128,20 +129,20 @@ def get_fav_top(username):
     # return json with topping
     raise NotImplementedError
 
-@app.route('/toppings')
-def get_topping_list():
+@app.route('/toppings/<username>')
+def get_topping_list(username):
     # query for all available toppings
     # return json with list of toppings
     raise NotImplementedError
 
-@app.route('/prefs/<username>/<prefSetName>')
-def get_preference(username, prefSetName):
+@app.route('/prefs/<set_id>')
+def get_preference(set_id):
     # query for all toppings/yummy values in preference set <prefSetName> under <username>
     # return a json with toppings and yummy values
     raise NotImplementedError
 
-@app.route('/prefsUpdate/<username>/<prefSetName>', methods=['POST'])
-def update_preference_set(username, prefSetName):
+@app.route('/prefsUpdate/<set_id>', methods=['POST'])
+def update_preference_set(set_id):
     # body contains preferences
     # delete old preferences under <prefSetName>?
     ### are we wiping every time or do we have a way to know what was removed and added?
@@ -149,7 +150,7 @@ def update_preference_set(username, prefSetName):
     # return success/fail
     raise NotImplementedError
 
-@app.route('/prefsNew/<username>/<prefSetName>', methods=['POST'])
+@app.route('/prefsNew/<set_id>', methods=['POST'])
 def make_new_preference_set(username, prefSetName):
     # body contains preferences
     # construct new preference, send to db
