@@ -84,4 +84,21 @@ export class LoginSignupComponent implements OnInit {
     this.newPasswordConfirm = "";
   }
 
+  forgotPass() {
+    if (this.username.length === 0) {
+      this.entryError = "Please enter your username";
+    } else {
+      this.http.get('http://localhost:8080/userExists/' + this.username).subscribe(
+        (response: Boolean) => {
+          if (!response) {
+            this.entryError = "That user doesn't exist";
+          } else {
+            this.bsModalRef.hide();
+            this.router.navigateByUrl('/userpage/' + this.username);
+          }
+        }
+      );
+    }
+  }
+
 }
