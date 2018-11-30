@@ -155,3 +155,18 @@ new_allergy = "insert into Allergy values (%s, %s)"
 #deletes an allergy for a user
 #params: username, topping
 delete_allergy = "delete from Allergy where user = %s and topping = %s"
+
+#creates a new order
+#params: none
+#run this before you create order details
+create_order = "insert into Food_Order (date) values (now())"
+
+#Add details about an order
+#params: order_id, username, topping
+#run this after creating the order
+add_order_details = "insert into Order_Details values (%s, %s, %s)"
+
+#Gets the id of the most recently added order
+#params: none
+#returns the id of the most recent order created
+get_recent_order = "select order_id from Food_Order order by date desc limit 1"
