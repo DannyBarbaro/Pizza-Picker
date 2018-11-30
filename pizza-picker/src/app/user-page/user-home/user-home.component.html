@@ -1,5 +1,6 @@
 <h1>Welcome to Pizza Picker</h1>
-<button type="button" class="btn btn-primary" (click)="orderModal.show()">Create New Order</button>
+<button type="button" class="btn btn-primary" (click)="pullFriends(); orderModal.show()">Create New Order</button>
+<label>{{ errorLabel }}</label>
 <div style="padding-top: 20px; padding-bottom: 20px;">
   <table class="table table-hover">
     <thead>
@@ -10,15 +11,15 @@
     </thead>
     <tbody>
       <tr *ngFor="let pref of preferences">
-        <td><input type="radio" name="radiogroup" [checked]="pref.select"></td>
+        <td><input type="radio" name="radiogroup" [checked]="pref.isCurrent"></td>
         <td style="font-size: 25px">{{ pref.name }}</td>
-        <td><button type="button" class="btn btn-primary" (click)="editPref(pref.name); lgModal.show();">Edit</button></td>
-        <td><button type="button" class="btn btn-danger" (click)="deletePref(pref.name)">Delete</button></td>
+        <td><button type="button" class="btn btn-primary" (click)="editPref(pref.prefs); lgModal.show();">Edit</button></td>
+        <td><button type="button" class="btn btn-danger" (click)="deletePref(pref)">Delete</button></td>
       </tr>
     </tbody>
   </table>
 </div>
-<button type="button" class="btn btn-primary" (click)="openPref(); lgModal.show()">New Preference Set</button>
+<button type="button" class="btn btn-primary" (click)="lgModal.show()">New Preference Set</button>
 
 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
   <div class="modal-dialog modal-lg">
@@ -33,23 +34,15 @@
         <h6>Preference Name:</h6>
         <input type="text" style="width: 50%" class="form-control" placeholder="Every good pizza needs a name!">
         <ul class="list-group" style="padding-top: 10px">
-          <li class="list-group-item">
-            <h6>Pepperoni</h6>
+          <li class="list-group-item" *ngFor="let top of toppings">
+            <h6>{{ top.name }}</h6>
             <div class="btn-group">
-              <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="Left" tabindex="0" role="button">Dislike</label>
-              <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="Middle" tabindex="0" role="button">Neutral</label>
-              <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="Right" tabindex="0" role="button">Like</label>
+              <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="d" tabindex="0" role="button">Dislike</label>
+              <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="n" tabindex="0" role="button">Neutral</label>
+              <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="l" tabindex="0" role="button">Like</label>
             </div>
           </li>
         </ul>
-        <!-- <li class="list-group-item" *ngFor="let top in toppings">
-            <h6>{{ top.name }}</h6>
-            <div class="btn-group">
-                <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="d" tabindex="0" role="button">Dislike</label>
-                <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="n" tabindex="0" role="button">Neutral</label>
-                <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="l" tabindex="0" role="button">Like</label>
-              </div>
-        </li> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default mr-auto" (click)="lgModal.hide()">Cancel</button>
@@ -73,27 +66,20 @@
           <div class="col-md-6" style="height: 500px; overflow: scroll;">
             <h3>My Friends</h3>
             <ul class="list-group">
-              <li class="list-group-item">
-                <button type="button" class="btn btn-primary">Add</button>
-                name
+              <li class="list-group-item" *ngFor="let friend of friends">
+                <button type="button" class="btn btn-primary" (click)="addToOrder(friend)">Add</button>
+                {{ friend }}
               </li>
-              <!-- <li class="list-group-item" *ngFor="let friend in friends">
-                <button type="button" class="btn btn-primary" (click)="addToOrder()">Add</button>
-                {{ friend.name }}
-              </li> -->
             </ul>
           </div>
           <div class="col-md-6" style="height: 500px; overflow: scroll;">
             <h3>My Order</h3>
             <ul class="list-group">
-              <li class="list-group-item">
-                <button type="button" class="btn btn-danger">Remove</button>
-                name
+              <li class="list-group-item">{{ router.url.split('/')[2] }}</li>
+              <li class="list-group-item" *ngFor="let person of myOrder">
+                <button type="button" class="btn btn-danger" (click)="removeFromOrder(person)">Remove</button>
+                {{ person }}
               </li>
-              <!-- <li class="list-group-item" *ngFor="let person in myOrder">
-                <button type="button" class="btn btn-danger" (click)="removeFromOrder()">Remove</button>
-                {{ friend.name }}
-              </li> -->
             </ul>
           </div>
         </form>

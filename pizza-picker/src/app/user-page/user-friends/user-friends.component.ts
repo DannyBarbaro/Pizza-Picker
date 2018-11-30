@@ -31,14 +31,14 @@ export class UserFriendsComponent implements OnInit {
       this.http.get<Boolean>('http://localhost:8080/userExists/' + this.router.url.split('/')[2])
         .subscribe((data: Boolean) => {
           if (data) {
-            this.http.post('http://localhost:8080/friend/' + this.router.url.split('/')[2] + this.addField, "").subscribe(x => this.fetchFriends())
+            this.http.post('http://localhost:8080/friend/' + this.router.url.split('/')[2] + '/' + this.addField, "").subscribe(x => this.fetchFriends())
           }
         });
     }
   }
 
   unfriend(name: String) {
-    this.http.delete('http://localhost:8080/unfriend/' + this.router.url.split('/')[2] + name)
+    this.http.delete('http://localhost:8080/unfriend/' + this.router.url.split('/')[2] + '/' + name)
       .subscribe(x => {
         this.fetchFriends();
       });

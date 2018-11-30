@@ -5,11 +5,11 @@ export interface Order {
 export interface PreferenceSet {
     name: string;
     id: number;
-    isCuurent: boolean;
-    preferences: Prefernce[];
+    isCurrent: boolean;
+    prefs: Preference[];
 }
 
-export interface Prefernce {
+export interface Preference {
     toping: string;
     score: number;
 }
