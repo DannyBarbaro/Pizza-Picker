@@ -94,3 +94,13 @@ update_preference_set = "update Preference_Set set title = %s, is_active = %s wh
 get_user_toppings = "select t.name " \
                     "from Topping t left join Allergy a on t.name = a.topping" \
                     "where a.user = %s and a.topping is NULL"
+
+#deletes a preference set
+#params: set_id
+#only deletes the set, must delete all preferences first
+delete_preference_set = "delete from Preference_Set where id = %s"
+
+#deletes all preferences from a given set
+#params: set_id
+#run this before you delete the preference set
+delete_preference = "delete from Preference where set_id = %s"
