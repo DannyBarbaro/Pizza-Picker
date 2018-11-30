@@ -248,7 +248,7 @@ def get_user_allergies(username):
         fixed.append(allergy[0])
     return jsonify(fixed)
 
-def make_pizzas(prefs_list): # change to also take the standard topping list?
+def make_pizzas(good_topping_list, pref_vecs): # change to also take the standard topping list?
     """
     Takes as input a list good_topping_list that contains every topping that at
     least one user in the order likes and no user in the order is allergic to,
@@ -264,55 +264,25 @@ def make_pizzas(prefs_list): # change to also take the standard topping list?
     Returns a list of pairs containing the set of toppings on a slice and how
     many of that type of slice
     """
-    num_slices = max(math.floor((3.5 * len(prefs_list))/2)*2, 8)
-    slice_per_person = num_slices / len(prefs_list)
-    leftovers = num_slices % len(prefs_list)
+    num_slices = max(math.floor((3.5 * len(pref_vecs))/2)*2, 8)
+    slice_per_person = num_slices / len(pref_vecs)
+    leftovers = num_slices % len(pref_vecs)
 
-    # dict that matches topping name to a num_likes-num_dislikes difference
-    topping_yummy = {}
-    bad_tops = []
-    # for each person's preference list
-    for pref in prefs_list:
-        # for each topping specification in a person's preference
-        for top_yum in pref:
-            # if someone else is allergic to this topping
-            if top_yum[0] in bad_tops:
-                continue
-            # if this person is allergic to this topping
-            if top_yum[1] == -2:
-                # put the topping in the bad topping list
-                bad_tops.append(top_yum[0])
-                # remove the topping from the topping list if someone else already put it in
-                if top_yum[0] in topping_yummy:
-                    del topping_yummy[top_yum[0]]
-            # if someone else already had a preference for the topping
-            elif top_yum[0] in topping_yummy:
-                topping_yummy[top_yum[0]] += top_yum[1]
-            # if no one has mentioned the topping before
-            else:
-                topping_yummy[top_yum[0]] = top_yum[1]
-
-    standard_top_order = []
-    best_topping = ("", -999999) # order limited to at most 1000000 people so this doesn't break
-    for topping in topping_yummy:
-        standard_top_order.append(topping)
-        if topping_yummy[topping] > best_topping[1]:
-            best_topping = (topping, topping_yummy[topping])
-    best_topping = best_topping[0]
-
-    # make standard ordered and sanatized vectors of yumminess quotients for each preference
-    pref_vecs = []
-    for pref in prefs_list:
-        pref_vecs.append([])
-        for topping in topping_yummy:
-            if (topping, -1) in pref:
-                pref_vecs[-1].append(-1)
-            elif (topping, 1) in pref:
-                pref_vecs[-1].append(1)
-            else:
-                pref_vecs[-1].append(0)
+    sum_vec = [0] * len(pref_vecs)
+    # sum preference vectors to find topping with largest like - dislike difference
+    for vec in pref_vecs:
+        for i in range(len(vec)):
+            sum_vec[i] += vec[i]
         # a value to track how many people agree with this topping set
-        pref_vecs[-1].append(1)
+        vec.append(1)
+
+    best_val = -999999
+    best_index = -1
+    for i in range(len(sum_vec)):
+        if sum_vec[i] > best_val:
+            best_val = sum_vec[i]
+            best_index = i
+    best_topping = topping_list[best_index]
 
     used_indices = []
     num_combos = len(pref_vecs)
@@ -349,7 +319,7 @@ def make_pizzas(prefs_list): # change to also take the standard topping list?
         if i in used_indices:
             continue
         topping_list = []
-        for topping, j in standard_top_order, range(len(pref_vecs[0])-1):
+        for topping, j in topping_list, range(len(pref_vecs[0])-1):
             if pref_vecs[j] > 0:
                 topping_list.append(topping)
         slice_set.append((topping_list, slice_per_person * pref_vecs[i][-1]))
