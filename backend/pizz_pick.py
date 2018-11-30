@@ -76,19 +76,25 @@ def make_new_friend(username1, username2):
     # send new friend relationships for <username1> and <username2>
     # make sure to add the relationship in both directions
     # return success/fail?
-    raise NotImplementedError
+    sql_execute(qt.new_friends, (username1, username2))
+    sql_execute(qt.new_friends, (username2, username1))
+    # returns empty 200?
 
 @app.route('/unfriend/<username1>/<username2>', methods=['DELETE'])
 def remove_friend(username1, username2):
     # remove friend relationship between <username1> and <username2>
     # remove relationship in both directions
     # return success/fail?
+    sql_execute(qt.remove_friends, (username1, username2))
+    sql_execute(qt.remove_friends, (username2, username1))
     raise NotImplementedError
 
 @app.route('/prefsets/<username>')
 def get_preference_sets(username):
     # query for all preference sets under <username>
     # return a json with the list of prefs
+    result = sql_query(qt.get_preference_sets, (username))
+
     raise NotImplementedError
 
 @app.route('/current/<username>/<prefSetName>', methods=['POST'])

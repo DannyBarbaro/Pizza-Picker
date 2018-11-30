@@ -53,6 +53,12 @@ get_topping_scores = "select topping, score from Preference where set_id = %s an
 #inserts a new row in the Friends table. Be sure to run this twice, once for each orientation
 new_friends = "insert into Friends values (%s, %s)"
 
+# Remove friendship between two users
+# params: username of friend1, username of friend2
+# removes a row in the Friends table involving those two users
+# run in both directions
+remove_friends = "delete from Friends where friend1 = %s and friend2 = %s"
+
 #Get all of the friends of a given user
 #params: username
 #returns all the users that this user is friends with
