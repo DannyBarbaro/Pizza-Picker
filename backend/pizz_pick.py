@@ -282,7 +282,7 @@ def make_pizzas(good_topping_list, pref_vecs): # change to also take the standar
         if sum_vec[i] > best_val:
             best_val = sum_vec[i]
             best_index = i
-    best_topping = topping_list[best_index]
+    best_topping = good_topping_list[best_index]
 
     used_indices = []
     num_combos = len(pref_vecs)
