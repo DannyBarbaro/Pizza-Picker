@@ -4,6 +4,7 @@
     <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'userhome'" (click)="changeView('userhome')">Home</button>
     <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'friends'" (click)="changeView('friends')">Friends</button>
     <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'stats'" (click)="changeView('stats')">Stats</button>
+    <button class="btn btn-outline-danger" type="button" [class.active]="viewState === 'allergies'" (click)="changeView('allergies')">Allergies</button>
   </form>
   <form>
     <button type="button" class="btn btn-primary" (click)="signOut()">Sign out</button>
@@ -19,5 +20,8 @@
   </ng-container>
   <ng-container *ngIf="viewState === 'stats'">
     <app-user-stats></app-user-stats>
+  </ng-container>
+  <ng-container *ngIf="viewState === 'allergies'">
+    <app-user-allergies></app-user-allergies>
   </ng-container>
 </div>
