@@ -147,18 +147,13 @@ def place_order():
     division = make_pizzas(fixed_toppings, scores)
 
     components = []
-    toppings_used = []
     for part in division:
         components.append({'toppings': part[0], 'sliceCount': part[1]})
-        #add toppings to the list for safekeeping
-        for top in part[0]:
-            if top not in toppings_used:
-                toppings_used.append(top)
 
     sql_execute(qt.create_order, None)
     id = sql_query(qt.get_recent_order, None)[0][0]
     for boi in hungry_bois:
-        for top in toppings_used:
+        for top in fixed_toppings:
             sql_execute(qt.add_order_details, (id, boi, top))
 
     return jsonify({'components': components})
