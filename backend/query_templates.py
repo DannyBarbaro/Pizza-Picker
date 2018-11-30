@@ -4,8 +4,14 @@ def format_list(list):
     return ','.join(['%s'] * len(list))
 
 #Create a user
-#params: username and password of new user. Password is not encrypted in any way.
+#params: username and password of new user
+#Password is not encrypted in any way.
 new_user = "insert into User values (%s, %s)"
+
+#Checks if a user exists
+#params: username
+#returns 1 if the user exists, 0 otherwise
+check_user = "select count(1) from User where username = %s"
 
 #validate a user
 #params: username and password to validate.
@@ -72,5 +78,5 @@ get_best_friend = "select count(o1.order_id) as frequency" \
                   "where o1.user = %s and o2.user <> o1.user" \
                   "group by o2.user order by frequency"
 
-#Calculates the average group size of a user's orders
-#params: username
+#Updates a preference set
+#params: set_id, list of preferences

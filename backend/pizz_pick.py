@@ -34,40 +34,42 @@ def sql_execute(sql, args=None):
 # For this example you can select a handler function by
 # uncommenting one of the @app.route decorators.
 
-@app.route('/auth')
-def auth():
-    username = request.headers['user']
-    password = request.headers['pass']
-    return jsonify(sql_query(qt.validate_user, (username, password))[0][0] == 1)
-
 # routing user to different things
-@app.route('/availableUser/<username>')
+@app.route('/userExists/<username>')
 def check_user(username):
     # query database for if <username> is already being used for some account
     # if exists, return true
     # else, return false
-    
-    return jsonify(result="True")
+    return jsonify(sql_query(qt.check_user, (username))[0][0] == 1)
 
 @app.route('/newUser', methods=['POST'])
 def make_new_user():
     # header has username and password
     # get values from header, and send it down to db
     # return some success/fail message?
-    raise NotImplementedError
+    user = request.headers['user']
+    password = request.headers['pass']
+    sql_execute(qt.new_user, (user, password))
+    #I'm going to assume this returns an empty 200
 
 @app.route('/auth')
 def validate_login():
     # header has username and password
     # check if account exists w/ those credentials (count > 0)
     # return success/fail
-    raise NotImplementedError
+    username = request.headers['user']
+    password = request.headers['pass']
+    return jsonify(sql_query(qt.validate_user, (username, password))[0][0] == 1)
 
 @app.route('/friends/<username>')
 def get_friends(username):
     # query for all friends under the account with <username>
     # return a json with a list of the friends
-    raise NotImplementedError
+    result = sql_query(qt.get_friends, (username))
+    #this isn't quite working yet
+    for i in range(len(result)):
+        result[i] = result[i][0]
+    return result
 
 @app.route('/friend/<username1>/<username2>', methods=['POST'])
 def make_new_friend(username1, username2):
@@ -126,7 +128,7 @@ def get_topping_list():
     # return json with list of toppings
     raise NotImplementedError
 
-@app.route('/prefs/<username>/<prefSetName')
+@app.route('/prefs/<username>/<prefSetName>')
 def get_preference(username, prefSetName):
     # query for all toppings/yummy values in preference set <prefSetName> under <username>
     # return a json with toppings and yummy values
@@ -258,20 +260,6 @@ def make_pizzas(prefs_list): # change to also take the standard topping list?
         slice_set.append(((best_topping), leftovers))
 
     return slice_set
-
-
-#@app.route('/', methods=['GET', 'POST'])
-def template_response_with_data():
-    print(request.form)
-    if "buy-book" in request.form:
-        book_id = int(request.form["buy-book"])
-        sql = "delete from book where id={book_id}".format(book_id=book_id)
-        sql_execute(sql)
-    template_data = {}
-    sql = "select id, title from book order by title"
-    books = sql_query(sql)
-    template_data['books'] = books
-    return render_template('home-w-data.html', template_data=template_data)
 
 if __name__ == '__main__':
     app.run(**config['app'])
