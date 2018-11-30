@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '../../../data-objects'
+import { BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-user-order',
   templateUrl: './user-order.component.html',
@@ -9,7 +10,7 @@ export class UserOrderComponent implements OnInit {
 
   order: Order;
   orderbody: String = "";
-  constructor() { }
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     let count: number = 0;
