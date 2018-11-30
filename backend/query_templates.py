@@ -102,9 +102,19 @@ activate_preference_set = "update Preference_Set set is_active = 1 where user = 
 #params: title, is_active (1/0), id
 update_preference_set = "update Preference_Set set title = %s, is_active = %s where id = %s"
 
-#creates a new preference set, the set is made inactive
+#creates a new preference set
+#params: username, title, is_active (1/0)
+new_preference_set = "insert into Preference_Set (user, title, is_active) values (%s, %s, %s)"
+
+#gets the ID of a preference set
 #params: username, title
-new_preference_set = "insert into Preference_Set (user, title, is_active) values (%s, %s, 0)"
+#returns the set_id of the matching preference_set
+get_preference_set_id = "select id from Preference_Set where user = %s and title = %s"
+
+#gets the number of preference sets defined by a user
+#params: username
+#returns the number of preference sets owned by this user
+get_set_count = "select count(id) as count from Preference_Set where user = %s group by user"
 
 #creates a new preference inside a set
 #params: topping, set_id, score

@@ -211,10 +211,21 @@ def update_preference_set(set_id):
 def make_new_preference_set(username):
     # body contains preferences
     # construct new preference, send to db
-    # return success/fail
+    # return ID of new set
     pref_set = request.get_json()
-    sql_execute(qt.new_preference_set, (pref_set['name']))
-    raise NotImplementedError
+    
+    #make this set active if it is the first one
+    if sql_query(qt.get_set_count, (username))[0][0] == 0:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 1))
+    else:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 0))
+
+    #add preferences
+    set_id = sql_query(qt.get_preference_set_id, (username, pref_set['name']))
+    for pref in pref_set['prefs']:
+        sql_execute(qt.new_preference, (pref['topping'], set_id, pref['score']))
+
+    return jsonify(set_id)
 
 def make_pizzas(prefs_list): # change to also take the standard topping list?
     """
