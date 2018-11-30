@@ -268,7 +268,7 @@ def make_pizzas(good_topping_list, pref_vecs): # change to also take the standar
     slice_per_person = num_slices / len(pref_vecs)
     leftovers = num_slices % len(pref_vecs)
 
-    sum_vec = [0] * len(pref_vecs)
+    sum_vec = [0] * len(pref_vecs[0])
     # sum preference vectors to find topping with largest like - dislike difference
     for vec in pref_vecs:
         for i in range(len(vec)):
@@ -319,8 +319,8 @@ def make_pizzas(good_topping_list, pref_vecs): # change to also take the standar
         if i in used_indices:
             continue
         topping_list = []
-        for topping, j in topping_list, range(len(pref_vecs[0])-1):
-            if pref_vecs[j] > 0:
+        for j, topping in enumerate(good_topping_list):
+            if pref_vecs[i][j] > 0:
                 topping_list.append(topping)
         slice_set.append((topping_list, slice_per_person * pref_vecs[i][-1]))
 
