@@ -54,6 +54,8 @@ export class LoginSignupComponent implements OnInit {
             if (!data) {
               if (passwordMatch) {
                 this.bsModalRef.hide();
+                const headers = new HttpHeaders().set("user", <string>this.newUsername).set("pass", <string>this.newPassword);
+                this.http.post('http://localhost:8080/newUser', "", {headers});
                 this.router.navigateByUrl('/userpage/' + this.newUsername);
               } else {
                 this.signUpError = "The given Passwords do not Match"
