@@ -66,10 +66,11 @@ def get_friends(username):
     # query for all friends under the account with <username>
     # return a json with a list of the friends
     result = sql_query(qt.get_friends, (username))
+    fixed = []
     #this isn't quite working yet
-    for i in range(len(result)):
-        result[i] = result[i][0]
-    return result
+    for friend in result:
+        fixed.append(friend[0])
+    return jsonify(fixed)
 
 @app.route('/friend/<username1>/<username2>', methods=['POST'])
 def make_new_friend(username1, username2):
