@@ -1,0 +1,15 @@
+<h1>Safety Comes First!</h1>
+<h6>Please mark your allergies here</h6>
+<table class="table table-hover">
+  <tbody>
+    <tr *ngFor="let top of toppings">
+      <td style="font-size: 25px">{{ top }}</td>
+      <td>
+        <div class="btn-group">
+          <label class="btn btn-outline-primary" [class.active]="!allergicTo(top)" (click)="allergyChange(top, false)">Okay</label>
+          <label class="btn btn-outline-danger" [class.active]="allergicTo(top)" (click)="allergyChange(top, true)">Allergic</label>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
