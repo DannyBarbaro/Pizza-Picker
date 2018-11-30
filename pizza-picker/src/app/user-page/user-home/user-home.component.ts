@@ -71,33 +71,41 @@ export class UserHomeComponent implements OnInit {
     } else {
       this.openModalID = -1;
     }
-    this.fetchToppings();
-    this.fetchAllergies();
-    let neededTops: String[] = this.toppings.filter((top: String) => !this.allergicTo(top));
-    this.prefDisplay = [];
-    if (currentPref) {
-      for (let top of neededTops) {
-        let index: number = currentPref.findIndex((pref: Preference) => pref.topping === top);
-        if (index !== -1) {
-          this.prefDisplay.push({ topping: <string>top, score: currentPref[index].score });
-        } else {
-          this.prefDisplay.push({ topping: <string>top, score: 0 });
-        }
-      }
-    } else {
-      this.flag = true;
-      for (let top of neededTops) {
-        this.prefDisplay.push({ topping: <string>top, score: 0 });
-      }
-    }
+    this.http.get<String[]>('http://localhost:8080/toppings')
+      .subscribe((data: String[]) => {
+        this.toppings = data;
+        this.http.get<String[]>('http://localhost:8080/allergies/' + this.router.url.split('/')[2])
+          .subscribe((data: String[]) => {
+            this.allergies = data;
+            let neededTops: String[] = this.toppings.filter((top: String) => !this.allergicTo(top));
+            this.prefDisplay = [];
+            if (currentPref) {
+              for (let top of neededTops) {
+                let index: number = currentPref.findIndex((pref: Preference) => pref.topping === top);
+                if (index !== -1) {
+                  this.prefDisplay.push({ topping: <string>top, score: currentPref[index].score });
+                } else {
+                  this.prefDisplay.push({ topping: <string>top, score: 0 });
+                }
+              }
+            } else {
+              this.flag = true;
+              for (let top of neededTops) {
+                this.prefDisplay.push({ topping: <string>top, score: 0 });
+              }
+            }
+          });
+      });
   }
 
   savePref(modal: BsModalRef) {
     if (this.prefSetName.length != 0) {
       if (this.flag) {
-        this.http.post('http://localhost:8080/prefsNew/' + this.router.url.split('/')[2], { name: this.prefSetName, preferences: this.prefDisplay });
+        this.http.post('http://localhost:8080/prefsNew/' + this.router.url.split('/')[2], { name: this.prefSetName, preferences: this.prefDisplay })
+          .subscribe(x => this.fetchPrefSets());
       } else {
-        this.http.post('http://localhost:8080/prefsUpdate/' + this.router.url.split('/')[2] + '/' + this.openModalID, { name: this.prefSetName, preferences: this.prefDisplay });
+        this.http.post('http://localhost:8080/prefsUpdate/' + this.router.url.split('/')[2] + '/' + this.openModalID, { name: this.prefSetName, preferences: this.prefDisplay })
+          .subscribe(x => this.fetchPrefSets());
       }
       modal.hide();
     }

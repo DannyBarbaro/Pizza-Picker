@@ -38,9 +38,9 @@
             <li class="list-group-item" *ngIf="!allergicTo(top)">
               <h6>{{ pref.topping }}</h6>
               <div class="btn-group">
-                <label class="btn btn-outline-danger" [(ngModel)]="pref.score" btnRadio="-1" tabindex="0" role="button">Dislike</label>
-                <label class="btn btn-outline-primary" [(ngModel)]="pref.score" btnRadio="0" tabindex="0" role="button">Neutral</label>
-                <label class="btn btn-outline-success" [(ngModel)]="pref.score" btnRadio="1" tabindex="0" role="button">Like</label>
+                <label class="btn btn-outline-danger" [class.active]="pref.score === -1" (click)="pref.score = -1">Dislike</label>
+                <label class="btn btn-outline-primary" [class.active]="pref.score === 0" (click)="pref.score = 0">Neutral</label>
+                <label class="btn btn-outline-success" [class.active]="pref.score === 1" (click)="pref.score = 1">Like</label>
               </div>
             </li>
           </ng-container>
