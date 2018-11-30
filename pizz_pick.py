@@ -52,8 +52,7 @@ def make_pizzas(prefs_list):
     pizza.  Does magical nonsense to put toppings together that won't upset
     anyone.  Calculates the size of the pizza using number of standard size
     slices, and assumes the magical constant of average 3.5 slices per person,
-    rounded down to the nearest multiple of 2 with a minimum of 8.  The acceptable
-    range of sizes are small (8), medium (10), large (12), and extra large 14).
+    rounded down to the nearest multiple of 2 with a minimum of 8.
 
     Returns a list of pairs containing the set of toppings on a slice and how
     many of those
