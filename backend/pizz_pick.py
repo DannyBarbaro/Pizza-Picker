@@ -118,11 +118,35 @@ def change_current_pref_set(username, pref_id):
 def place_order():
     # body has list of <username>s participating in order
     # get their active preference sets, generate safe topping list, pass to algo
-    hungry_bois = request.headers['users']
-    active_sets = []
+
+    #get toppings
+    hungry_bois = request.get_json()
+    param_list = qt.format_list(hungry_bois)
+    query = qt.get_valid_toppings % (param_list, param_list)
+    toppings = sql_query(query, list(hungry_bois) + list(hungry_bois))
+
+    # make topping list from a dict from query
+    fixed_toppings = []
+    for topping in toppings:
+        fixed_toppings.append(topping[0])
+
+    #get active sets for each person
+    actives = []
     for boi in hungry_bois:
-        active_sets.append(sql_query(qt.get_active_set, (boi))[0][0])
-    # make topping list from a dict from
+        actives.append(sql_query(qt.get_active_set, (boi))[0][0])
+
+    #for each person get scores
+    topping_params = qt.format_list(fixed_toppings)
+    query = qt.get_topping_scores % ("%s", topping_params)
+    scores = []
+    for id in actives:
+        scores.append([])
+        for pair in sql_query(query, list(id) + fixed_toppings):
+            scores[-1].append(pair[1])
+
+    make_pizzas(fixed_toppings, scores)
+
+    #do more stuff with result
     raise NotImplementedError
 
 @app.route('/stat/total/<username>')
@@ -172,7 +196,7 @@ def update_preference_set(set_id):
     # update records in db and create any new ones
     pref_set = request.get_json()
 
-    for pref in pref_set['prefs']:
+    for pref in pref_set['preferences']:
         params = {'set_id': set_id, 'topping': pref['topping'], 'score': pref['score']}
         sql_execute(qt.update_preference, params)
     

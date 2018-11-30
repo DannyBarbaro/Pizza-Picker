@@ -1,5 +1,5 @@
 def format_list(list):
-    """Accepts a list and returns a format string that you can use
+    """Accepts a list of strings and returns a format string that you can use
     as a parameter for any query that accepts a list as a parameter."""
     return ','.join(['%s'] * len(list))
 
@@ -39,19 +39,20 @@ get_preferences = "select topping, score from Preference where set_id = %s"
 get_allergies = "select topping from Allergy where user = %s"
 
 #Get all toppings that should be considered when creating a pizza
-#params: dict containing the users
+#params: format sting, then list of usernames and list of same usernames
 #returns a list of toppings such that each topping is desired by at least 1 user
 # and no user is allergic to any topping.
 get_valid_toppings = "select distinct p.topping " \
                      "from Preference_Set ps " \
                      "inner join Preference p on p.set_id = ps.id " \
-                     "where ps.user in (%(users)s) and ps.is_active = 1 and p.topping not in " \
-                          "(select distinct topping from Allergy where user in (%(users)s)"
+                     "where ps.user in (%s) and ps.is_active = 1 and p.topping not in " \
+                          "(select distinct topping from Allergy where user in (%s)) " \
+                     "order by p.topping"
 
 #Get the score for toppings in a preference set
 #params: Preference set ID, list of toppings
 #returns the topping and the score of that topping
-get_topping_scores = "select topping, score from Preference where set_id = %s and topping in (%s)"
+get_topping_scores = "select topping, score from Preference where set_id = %s and topping in (%s) order by topping"
 
 #Create a new friendship between two users
 #params: username of friend1, username of friend2
@@ -93,7 +94,7 @@ get_best_friend = "select count(o1.order_id) as frequency " \
 #params: dict containing set_id, topping, and score
 #Call this on each preference when a set is updated
 update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(score)s) " \
-                    "on duplicate key update score = %(score)s where topping = %(topping)s and set_id = %(set_id)s"
+                    "on duplicate key update score = %(score)s"
 
 # Deselects the current preference set of a user
 # params: username
@@ -101,7 +102,7 @@ deselect_current_set = "update Preference_Set set is_active = 0 where user = %s 
 
 # Activates a preference set of a user, specified by title
 # params: set_id
-activate_preference_set = "update Preference_Set set is_active = 1 where set_id = %s"
+activate_preference_set = "update Preference_Set set is_active = 1 where id = %s"
 
 #updates a preference set
 #params: title, is_active (1/0), id
