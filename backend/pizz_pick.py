@@ -88,7 +88,7 @@ def remove_friend(username1, username2):
     # return success/fail?
     sql_execute(qt.remove_friends, (username1, username2))
     sql_execute(qt.remove_friends, (username2, username1))
-    raise NotImplementedError
+    return "1"
 
 @app.route('/prefsets/<username>')
 def get_preference_sets(username):
@@ -150,11 +150,13 @@ def update_preference_set(set_id):
     # return success/fail
     raise NotImplementedError
 
-@app.route('/prefsNew/<set_id>', methods=['POST'])
-def make_new_preference_set(username, prefSetName):
+@app.route('/prefsNew/<username>', methods=['POST'])
+def make_new_preference_set(username):
     # body contains preferences
     # construct new preference, send to db
     # return success/fail
+    pref_set = request.get_json()
+    sql_execute(qt.new_preference_set, (pref_set['name']))
     raise NotImplementedError
 
 def make_pizzas(prefs_list): # change to also take the standard topping list?

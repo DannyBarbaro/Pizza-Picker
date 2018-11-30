@@ -94,6 +94,14 @@ update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(s
 #params: title, is_active (1/0), id
 update_preference_set = "update Preference_Set set title = %s, is_active = %s where id = %s"
 
+#creates a new preference set, the set is made inactive
+#params: username, title
+new_preference_set = "insert into Preference_Set (user, title, is_active) values (%s, %s, 0)"
+
+#creates a new preference inside a set
+#params: topping, set_id, score
+new_preference = "insert into Preference values (%s, %s, %s)"
+
 #gets all the toppings that a user is not allergic to
 #params: username
 #returns a list of toppings
