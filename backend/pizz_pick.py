@@ -217,7 +217,7 @@ def update_preference_set(set_id):
     for pref in pref_set['preferences']:
         params = {'set_id': set_id, 'topping': pref['topping'], 'score': pref['score']}
         sql_execute(qt.update_preference, params)
-    
+
     return make_response()
 
 @app.route('/prefsNew/<username>', methods=['POST'])
