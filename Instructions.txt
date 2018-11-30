@@ -1,0 +1,23 @@
+Extract the zip and put the folder onto the class server
+
+Installing for running for backend dirrections:
+Go to the backend directory
+
+
+
+Installing and running for frontend directions:
+Getting Node:
+
+apt install nodejs
+apt install npm
+sudo npm cache clean -f
+sudo npm install -g n
+sudo stable n
+
+Go to the pizza-picker directory and run the following commands:
+npm install @angular/cli
+npm install bootstrap
+npm install ngx-bootstrap
+ng serve -o
+
+Open your browser of choice and navigate to localhost:4200
