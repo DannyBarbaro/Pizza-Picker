@@ -79,7 +79,7 @@ def make_new_friend(username1, username2):
     # return success/fail?
     sql_execute(qt.new_friends, (username1, username2))
     sql_execute(qt.new_friends, (username2, username1))
-    # returns empty 200?
+    return "didit"
 
 @app.route('/unfriend/<username1>/<username2>', methods=['DELETE'])
 def remove_friend(username1, username2):
@@ -126,6 +126,7 @@ def remove_friend(username1, username2):
     after dark he'll start seeing the town lights over one of these hills, and \
     that'll be all he needs. "
 
+
 @app.route('/prefsets/<username>')
 def get_preference_sets(username):
     # query for all preference sets under <username>
@@ -169,6 +170,7 @@ def place_order():
     active_sets = []
     for boi in hungry_bois:
         active_sets.append(sql_query(qt.get_active_set, (boi))[0][0])
+    # make topping list from a dict from
     raise NotImplementedError
 
 @app.route('/stat/total/<username>')
@@ -213,40 +215,28 @@ def update_preference_set(set_id):
     # return success/fail
     raise NotImplementedError
 
-@app.route('/prefsNew/<username>', methods=['POST'])
-def make_new_preference_set(username):
+@app.route('/prefsNew/<set_id>', methods=['POST'])
+def make_new_preference_set(username, prefSetName):
     # body contains preferences
     # construct new preference, send to db
-    # return ID of new set
-    pref_set = request.get_json()
-    
-    #make this set active if it is the first one
-    if sql_query(qt.get_set_count, (username))[0][0] == 0:
-        sql_execute(qt.new_preference_set, (username, pref_set['name'], 1))
-    else:
-        sql_execute(qt.new_preference_set, (username, pref_set['name'], 0))
+    # return success/fail
+    raise NotImplementedError
 
-    #add preferences
-    set_id = sql_query(qt.get_preference_set_id, (username, pref_set['name']))
-    for pref in pref_set['prefs']:
-        sql_execute(qt.new_preference, (pref['topping'], set_id, pref['score']))
-
-    return jsonify(set_id)
-
-def make_pizzas(prefs_list): # change to also take the standard topping list?
+def make_pizzas(good_topping_list, pref_vecs):
     """
-    Takes as input a list of preferences containing topping-yumminess pairs.
-    Yumminess quotient values should be set as -2 for allergic to this thing, as
-    -1 for they dislike the thing, and as 1 for they like the thing.  Ignores any
-    toppings that at least one person in the order is allergic to.  Creates a
-    vector that can hold values for all the toppings that might get put on the
-    pizza.  Does magical nonsense to put toppings together that won't upset
+    Takes as input a list good_topping_list that contains every topping that at
+    least one user in the order likes and no user in the order is allergic to,
+    and a list pref_vecs of preference value vectors.  Each vector holds values
+    1, -1, and 0 to signify like, dislike, and neutral, respectively.  The values
+    correspond to toppings in the same order as they appear in good_topping_list
+
+    Does magical nonsense to put toppings together that won't upset
     anyone.  Calculates the size of the pizza using number of standard size
     slices, and assumes the magical constant of average 3.5 slices per person,
     rounded down to the nearest multiple of 2 with a minimum of 8.
 
     Returns a list of pairs containing the set of toppings on a slice and how
-    many of those
+    many of that type of slice
     """
     num_slices = max(math.floor((3.5 * len(prefs_list))/2)*2, 8)
     slice_per_person = num_slices / len(prefs_list)
