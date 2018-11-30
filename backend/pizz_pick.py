@@ -126,7 +126,6 @@ def remove_friend(username1, username2):
     after dark he'll start seeing the town lights over one of these hills, and \
     that'll be all he needs. "
 
-
 @app.route('/prefsets/<username>')
 def get_preference_sets(username):
     # query for all preference sets under <username>
@@ -214,12 +213,25 @@ def update_preference_set(set_id):
     # return success/fail
     raise NotImplementedError
 
-@app.route('/prefsNew/<set_id>', methods=['POST'])
-def make_new_preference_set(username, prefSetName):
+@app.route('/prefsNew/<username>', methods=['POST'])
+def make_new_preference_set(username):
     # body contains preferences
     # construct new preference, send to db
-    # return success/fail
-    raise NotImplementedError
+    # return ID of new set
+    pref_set = request.get_json()
+    
+    #make this set active if it is the first one
+    if sql_query(qt.get_set_count, (username))[0][0] == 0:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 1))
+    else:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 0))
+
+    #add preferences
+    set_id = sql_query(qt.get_preference_set_id, (username, pref_set['name']))
+    for pref in pref_set['prefs']:
+        sql_execute(qt.new_preference, (pref['topping'], set_id, pref['score']))
+
+    return jsonify(set_id)
 
 def make_pizzas(prefs_list): # change to also take the standard topping list?
     """

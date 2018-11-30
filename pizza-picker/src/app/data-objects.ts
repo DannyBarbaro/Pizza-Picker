@@ -10,7 +10,7 @@ export interface PreferenceSet {
 }
 
 export interface Preference {
-    toping: string;
+    topping: string;
     score: number;
 }
 
