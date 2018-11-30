@@ -227,6 +227,15 @@ def make_new_preference_set(username):
 
     return jsonify(set_id)
 
+@app.route('/allergies/<username>')
+def get_user_allergies(username):
+    #query for all toppings the user is allergic to
+    allergies = sql_query(qt.get_allergies, (username))
+    fixed = []
+    for allergy in allergies:
+        fixed.append(allergy[0])
+    return jsonify(fixed)
+
 def make_pizzas(prefs_list): # change to also take the standard topping list?
     """
     Takes as input a list of preferences containing topping-yumminess pairs.

@@ -120,12 +120,10 @@ get_set_count = "select count(id) as count from Preference_Set where user = %s g
 #params: topping, set_id, score
 new_preference = "insert into Preference values (%s, %s, %s)"
 
-#gets all the toppings that a user is not allergic to
-#params: username
+#gets all the toppings
+#params: none
 #returns a list of toppings
-get_user_toppings = "select t.name " \
-                    "from Topping t left join Allergy a on t.name = a.topping" \
-                    "where a.user = %s and a.topping is NULL"
+get_toppings = "select * from Topping"
 
 #deletes a preference set
 #params: set_id
