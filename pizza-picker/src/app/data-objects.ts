@@ -1,5 +1,10 @@
 export interface Order {
-    pizza: string;
+    components: OrderComponent[];
+}
+
+export interface OrderComponent {
+    toppings: string[];
+    sliceCount: number;
 }
 
 export interface PreferenceSet {
