@@ -11,9 +11,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let pref of preferences">
-        <td><input type="radio" name="radiogroup" [checked]="pref.isCurrent"></td>
+        <td><input type="radio" name="radiogroup" [checked]="pref.isCurrent" (click)="currentUpdate(pref.id)"></td>
         <td style="font-size: 25px">{{ pref.name }}</td>
-        <td><button type="button" class="btn btn-primary" (click)="openPref(pref.prefs); lgModal.show();">Edit</button></td>
+        <td><button type="button" class="btn btn-primary" (click)="openPref(pref.prefs, pref.id); lgModal.show();">Edit</button></td>
         <td><button type="button" class="btn btn-danger" (click)="deletePref(pref)">Delete</button></td>
       </tr>
     </tbody>
@@ -34,13 +34,13 @@
         <h6>Preference Name:</h6>
         <input type="text" style="width: 50%" class="form-control" placeholder="Every good pizza needs a name!" [(ngModel)]="prefSetName">
         <ul class="list-group" style="padding-top: 10px">
-          <ng-container *ngFor="let top of toppings">
+          <ng-container *ngFor="let pref of prefDisplay">
             <li class="list-group-item" *ngIf="!allergicTo(top)">
-              <h6>{{ top }}</h6>
+              <h6>{{ pref.topping }}</h6>
               <div class="btn-group">
-                <label class="btn btn-outline-danger" [(ngModel)]="radioModel" btnRadio="d" tabindex="0" role="button">Dislike</label>
-                <label class="btn btn-outline-primary" [(ngModel)]="radioModel" btnRadio="n" tabindex="0" role="button">Neutral</label>
-                <label class="btn btn-outline-success" [(ngModel)]="radioModel" btnRadio="l" tabindex="0" role="button">Like</label>
+                <label class="btn btn-outline-danger" [(ngModel)]="pref.score" btnRadio="-1" tabindex="0" role="button">Dislike</label>
+                <label class="btn btn-outline-primary" [(ngModel)]="pref.score" btnRadio="0" tabindex="0" role="button">Neutral</label>
+                <label class="btn btn-outline-success" [(ngModel)]="pref.score" btnRadio="1" tabindex="0" role="button">Like</label>
               </div>
             </li>
           </ng-container>

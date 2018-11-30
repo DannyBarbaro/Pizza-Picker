@@ -13,7 +13,6 @@ export class UserHomeComponent implements OnInit {
 
   preferences: PreferenceSet[] = [];
   errorLabel: String = "";
-  radioModel = 'Middle';
   modalPreferences: Preference[] = [];
 
   constructor(private router: Router, private http: HttpClient) { }
@@ -26,6 +25,10 @@ export class UserHomeComponent implements OnInit {
   fetchPrefSets() {
     this.http.get<PreferenceSet[]>('http://localhost:8080/prefsets/' + this.router.url.split('/')[2])
       .subscribe((data: PreferenceSet[]) => this.preferences = data);
+  }
+
+  updateCurrent(id: number) {
+    this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
   }
 
   deletePref(pref: PreferenceSet) {
@@ -41,6 +44,8 @@ export class UserHomeComponent implements OnInit {
   allergies: String[] = [];
   prefSetName: String = "";
   prefDisplay: Preference[] = [];
+  flag: boolean = false;
+  openModalID: number = -1;
   fetchToppings() {
     this.http.get<String[]>('http://localhost:8080/toppings')
       .subscribe((data: String[]) => {
@@ -59,7 +64,13 @@ export class UserHomeComponent implements OnInit {
     return (this.allergies.findIndex((allergy: String) => allergy === top)) !== -1;
   }
 
-  openPref(currentPref?: Preference[]) {
+  openPref(currentPref?: Preference[], openID?: number) {
+    this.flag = false;
+    if (openID) {
+      this.openModalID = openID;
+    } else {
+      this.openModalID = -1;
+    }
     this.fetchToppings();
     this.fetchAllergies();
     let neededTops: String[] = this.toppings.filter((top: String) => !this.allergicTo(top));
@@ -74,6 +85,7 @@ export class UserHomeComponent implements OnInit {
         }
       }
     } else {
+      this.flag = true;
       for (let top of neededTops) {
         this.prefDisplay.push({ topping: <string>top, score: 0 });
       }
@@ -82,7 +94,11 @@ export class UserHomeComponent implements OnInit {
 
   savePref(modal: BsModalRef) {
     if (this.prefSetName.length != 0) {
-      //TODO push the data to the db
+      if (this.flag) {
+        this.http.post('http://localhost:8080/prefsNew/' + this.router.url.split('/')[2], { name: this.prefSetName, preferences: this.prefDisplay });
+      } else {
+        this.http.post('http://localhost:8080/prefsUpdate/' + this.router.url.split('/')[2] + '/' + this.openModalID, { name: this.prefSetName, preferences: this.prefDisplay });
+      }
       modal.hide();
     }
   }
