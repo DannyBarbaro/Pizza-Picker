@@ -40,10 +40,7 @@ import { UserOrderComponent } from './user-page/user-home/user-order/user-order.
     ModalModule.forRoot(),
   ],
   providers: [],
-  entryComponents:[
-    LoginSignupComponent,
-    UserOrderComponent,
-  ],
+  entryComponents:[LoginSignupComponent, UserOrderComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
