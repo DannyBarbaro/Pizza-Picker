@@ -2,7 +2,8 @@ import configparser
 import pymysql
 import math
 from flask import Flask, render_template, request, jsonify
-#from flask_cors import CORS
+import query_templates as qt
+from flask_cors import CORS
 
 # Read configuration from file.
 config = configparser.ConfigParser()
@@ -10,22 +11,22 @@ config.read('config.ini')
 
 # Set up application server.
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 # Create a function for fetching data from the database.
-def sql_query(sql):
+def sql_query(sql, args=None):
     db = pymysql.connect(**config['pymysql.connect'])
     cursor = db.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, args)
     result = cursor.fetchall()
     cursor.close()
     db.close()
     return result
 
-def sql_execute(sql):
+def sql_execute(sql, args=None):
     db = pymysql.connect(**config['pymysql.connect'])
     cursor = db.cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, args)
     db.commit()
     cursor.close()
     db.close()
@@ -33,13 +34,19 @@ def sql_execute(sql):
 # For this example you can select a handler function by
 # uncommenting one of the @app.route decorators.
 
+@app.route('/auth')
+def auth():
+    username = request.headers['user']
+    password = request.headers['pass']
+    return jsonify(sql_query(qt.validate_user, (username, password))[0][0] == 1)
+
 # routing user to different things
 @app.route('/availableUser/<username>')
 def check_user(username):
     # query database for if <username> is already being used for some account
     # if exists, return true
     # else, return false
-    print("thang")
+    
     return jsonify(result="True")
 
 @app.route('/newUser', methods=['POST'])
