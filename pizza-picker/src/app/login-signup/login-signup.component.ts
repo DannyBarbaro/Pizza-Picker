@@ -27,11 +27,11 @@ export class LoginSignupComponent implements OnInit {
 
   signIn() {
     //http call for log in
-    let loginSuccessful: Boolean = true;
+    let loginSuccessful: Boolean = false;
     if (this.username.length !== 0 && this.password.length !== 0) {
       const headers = new HttpHeaders().set("user", <string>this.username).set("pass", <string>this.password);
-      //TODO this.http.get<Boolean>('http://localhost:8080/auth', {headers})
-      //  .subscribe((data: Boolean) => loginSuccessful = data);
+      this.http.get<Boolean>('http://localhost:8080/auth', {headers})
+        .subscribe((data: Boolean) => loginSuccessful = data);
       if (loginSuccessful) {
         //route to the next page
         this.bsModalRef.hide();
