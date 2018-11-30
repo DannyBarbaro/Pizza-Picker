@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PreferenceSet, Preference, Order } from '../../data-objects';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserOrderComponent } from './user-order/user-order.component';
 
 @Component({
   selector: 'app-user-home',
@@ -14,8 +15,8 @@ export class UserHomeComponent implements OnInit {
   preferences: PreferenceSet[] = [];
   errorLabel: String = "";
   modalPreferences: Preference[] = [];
-
-  constructor(private router: Router, private http: HttpClient) { }
+  bsModalRef: BsModalRef;
+  constructor(private router: Router, private http: HttpClient, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.errorLabel = ""
@@ -29,7 +30,7 @@ export class UserHomeComponent implements OnInit {
 
   updateCurrent(id: number) {
     this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "")
-    .subscribe(x => this.fetchPrefSets());
+      .subscribe(x => this.fetchPrefSets());
   }
 
   deletePref(pref: PreferenceSet) {
@@ -118,7 +119,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   friends: String[] = [];
-  myOrder: String[] = [this.router.url.split('/')[2]];
+  myOrder: String[] = [];
   pullFriends() {
     this.http.get<String[]>('http://localhost:8080/friends/' + this.router.url.split('/')[2])
       .subscribe((data: String[]) => {
@@ -136,10 +137,12 @@ export class UserHomeComponent implements OnInit {
   }
 
   placeOrder() {
+    this.myOrder.push(this.router.url.split('/')[2]);
     this.http.post('http://localhost:8080/order', this.myOrder)
-      .subscribe((order: Order) => {
-        //TODO
-        console.log(order.pizza);
+      .subscribe((o: Order) => {
+        const initialState = { order: o };
+        this.bsModalRef = this.modalService.show(UserOrderComponent, { initialState });
       });
+    this.myOrder = [];
   }
 }
