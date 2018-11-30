@@ -11,9 +11,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let pref of preferences">
-        <td><input type="radio" name="radiogroup" [checked]="pref.isCurrent" (click)="currentUpdate(pref.id)"></td>
+        <td><input type="radio" name="radiogroup" [checked]="pref.isCurrent" (change)="currentUpdate(pref.id, $event)"></td>
         <td style="font-size: 25px">{{ pref.name }}</td>
-        <td><button type="button" class="btn btn-primary" (click)="openPref(pref.prefs, pref.id); lgModal.show();">Edit</button></td>
+        <td><button type="button" class="btn btn-primary" (click)="openPref(pref.prefs, pref.id, pref.name); lgModal.show();">Edit</button></td>
         <td><button type="button" class="btn btn-danger" (click)="deletePref(pref)">Delete</button></td>
       </tr>
     </tbody>

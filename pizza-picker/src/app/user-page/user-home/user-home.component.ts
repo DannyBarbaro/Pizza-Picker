@@ -27,8 +27,10 @@ export class UserHomeComponent implements OnInit {
       .subscribe((data: PreferenceSet[]) => this.preferences = data);
   }
 
-  updateCurrent(id: number) {
-    this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
+  updateCurrent(id: number, event) {
+    if (event.target.checked) {
+      this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
+    }
   }
 
   deletePref(pref: PreferenceSet) {
@@ -64,8 +66,13 @@ export class UserHomeComponent implements OnInit {
     return (this.allergies.findIndex((allergy: String) => allergy === top)) !== -1;
   }
 
-  openPref(currentPref?: Preference[], openID?: number) {
+  openPref(currentPref?: Preference[], openID?: number, name?: String) {
     this.flag = false;
+    if (name) {
+      this.prefSetName = name;
+    } else {
+      this.prefSetName = "";
+    }
     if (openID) {
       this.openModalID = openID;
     } else {
