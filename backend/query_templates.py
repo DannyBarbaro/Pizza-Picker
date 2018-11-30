@@ -84,11 +84,11 @@ get_favorite_toppings = "select topping, count(order_id) as frequency from Order
 #Calculates the user's best friend
 #params: username
 #returns a list of people they have ordered a pizza with and the number of orders with that person
-get_best_friend = "select count(o1.order_id) as frequency " \
+get_best_friend = "select o2.user, count(o1.order_id) as frequency " \
                   "from Order_Details o1 " \
                   "join Order_Details o2 on o1.order_id = o2.order_id " \
                   "where o1.user = %s and o2.user <> o1.user " \
-                  "group by o2.user order by frequency"
+                  "group by o2.user order by frequency desc"
 
 #Updates a preference
 #params: dict containing set_id, topping, and score

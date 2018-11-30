@@ -161,6 +161,8 @@ def get_best_pizza_pal(username):
     # query for best friend of <username>
     # return json with username of best friend
     result = sql_query(qt.get_best_friend, (username))
+    if (result == ()):
+        return '"You haven\'t ordered any pizzas yet!"'
     return jsonify(result[0][0])
 
 @app.route('/stat/favTop/<username>')
@@ -168,6 +170,8 @@ def get_fav_top(username):
     # query for favorite topping of <username>
     # return json with topping
     result = sql_query(qt.get_favorite_toppings, (username))
+    if (result == ()):
+        return '"Seriously, get yourself a pizza!"'
     return jsonify(result[0][0])
 
 @app.route('/toppings')
