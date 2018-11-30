@@ -18,11 +18,16 @@ export class UserOrderComponent implements OnInit {
       count += comp.sliceCount;
       this.orderbody += "Order " + comp.sliceCount + " slices of ";
       for(let top of comp.toppings) {
-        this.orderbody += top + " ";
+        this.orderbody += top + ", ";
       }
-      this.orderbody += "\n";
+      if (comp.toppings.length === 0) {
+        this.orderbody += "plain"
+      } else {
+        this.orderbody = this.orderbody.slice(0, -2)
+      }
+      this.orderbody += ".\n";
     }
-    this.orderbody += " This is " + count/8 + " total pizzas";
+    this.orderbody += " This is " + count/8 + " total pizzas.";
   }
 
 }

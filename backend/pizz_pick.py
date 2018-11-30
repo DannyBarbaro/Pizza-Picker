@@ -148,7 +148,10 @@ def place_order():
 
     components = []
     for part in division:
-        components.append({'toppings': part[0], 'sliceCount': part[1]})
+        use = part[0]
+        if not isinstance(part[0], list):
+            use = [part[0]]
+        components.append({'toppings': use, 'sliceCount': part[1]})
 
     sql_execute(qt.create_order, None)
     id = sql_query(qt.get_recent_order, None)[0][0]
