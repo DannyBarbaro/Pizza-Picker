@@ -186,11 +186,15 @@ def get_fav_top(username):
     # return json with topping
     raise NotImplementedError
 
-@app.route('/toppings/<username>')
-def get_topping_list(username):
+@app.route('/toppings')
+def get_topping_list():
     # query for all available toppings
     # return json with list of toppings
-    raise NotImplementedError
+    toppings = sql_query(qt.get_toppings)
+    fixed = []
+    for topping in toppings:
+        fixed.append(topping[0])
+    return jsonify(fixed)
 
 @app.route('/prefs/<set_id>')
 def get_preference(set_id):
