@@ -286,7 +286,7 @@ def make_pizzas(good_topping_list, pref_vecs): # change to also take the standar
     many of that type of slice
     """
     num_slices = max(math.floor((3.5 * len(pref_vecs))/2)*2, 8)
-    slice_per_person = num_slices / len(pref_vecs)
+    slice_per_person = num_slices // len(pref_vecs)
     leftovers = num_slices % len(pref_vecs)
 
     sum_vec = [0] * len(pref_vecs[0])
