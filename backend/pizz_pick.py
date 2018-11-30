@@ -50,7 +50,7 @@ def make_new_user():
     user = request.headers['user']
     password = request.headers['pass']
     sql_execute(qt.new_user, (user, password))
-    #I'm going to assume this returns an empty 200
+    return "It doesn't actually return an empty 200"
 
 @app.route('/auth')
 def validate_login():
@@ -88,21 +88,78 @@ def remove_friend(username1, username2):
     # return success/fail?
     sql_execute(qt.remove_friends, (username1, username2))
     sql_execute(qt.remove_friends, (username2, username1))
-    return "1"
+    return "So, there's a man crawling through the desert. He'd decided to try \
+    his SUV in a little bit of cross-country travel, had great fun zooming over \
+    the badlands and through the sand, got lost, hit a big rock, and then he \
+    couldn't get it started again. There were no cell phone towers anywhere near, \
+    so his cell phone was useless. He had no family, his parents had died a few \
+    years before in an auto accident, and his few friends had no idea he was out \
+    here. He stayed with the car for a day or so, but his one bottle of water ran \
+    out and he was getting thirsty. He thought maybe he knew the direction back, \
+    now that he'd paid attention to the sun and thought he'd figured out which \
+    way was north, so he decided to start walking. He figured he only had to go \
+    about 30 miles or so and he'd be back to the small town he'd gotten gas in \
+    last. He thinks about walking at night to avoid the heat and sun, but based \
+    upon how dark it actually was the night before, and given that he has no \
+    flashlight, he's afraid that he'll break a leg or step on a rattlesnake. So, \
+    he puts on some sun block, puts the rest in his pocket for reapplication \
+    later, brings an umbrella he'd had in the back of the SUV with him to give \
+    him a little shade, pours the windshield wiper fluid into his water bottle \
+    in case he gets that desperate, brings his pocket knife in case he finds a \
+    cactus that looks like it might have water in it, and heads out in the \
+    direction he thinks is right. He walks for the entire day. By the end of the \
+    day he's really thirsty. He's been sweating all day, and his lips are \
+    starting to crack. He's reapplied the sunblock twice, and tried to stay under \
+    the umbrella, but he still feels sunburned. The windshield wiper fluid \
+    sloshing in the bottle in his pocket is really getting tempting now. He knows \
+    that it's mainly water and some ethanol and coloring, but he also knows that \
+    they add some kind of poison to it to keep people from drinking it. He \
+    wonders what the poison is, and whether the poison would be worse than dying \
+    of thirst. He pushes on, trying to get to that small town before dark. By the \
+    end of the day he starts getting worried. He figures he's been walking at \
+    least 3 miles an hour, according to his watch for over 10 hours. That means \
+    that if his estimate was right that he should be close to the town. But he \
+    doesn't recognize any of this. He had to cross a dry creek bed a mile or two \
+    back, and he doesn't remember coming through it in the SUV. He figures that \
+    maybe he got his direction off just a little and that the dry creek bed was \
+    just off to one side of his path. He tells himself that he's close, and that \
+    after dark he'll start seeing the town lights over one of these hills, and \
+    that'll be all he needs. "
 
 @app.route('/prefsets/<username>')
 def get_preference_sets(username):
     # query for all preference sets under <username>
     # return a json with the list of prefs
     result = sql_query(qt.get_preference_sets, (username))
-
-    raise NotImplementedError
+    sets = []
+    for set in result:
+        sets.append(set[0])
+    return jsonify(sets)
 
 @app.route('/current/<username>/<prefSetName>', methods=['POST'])
 def change_current_pref_set(username, prefSetName):
     # mark current set of <username> to be <prefSetName>
+    # unmark old current set
     # return success/fail?
-    raise NotImplementedError
+    sql_execute(qt.deselect_current_set, (username))
+    sql_execute(qt.activate_preference_set, (username, prefSetName))
+    return  "condescending conned ascending con dissenting condor-sending \
+    condescending con's descending condor sending condor-sending condescending \
+    con's dissenting conte's ending condescending con-dissenting Condi's ending \
+    condescending contes ending condescending Khan's descending on dissenting \
+    conned ascending con dissenting condor-sending condescending con's descending \
+    condor sending condor-sending condescending con's dissenting conte's ending \
+    condescending con-dissenting Condi's ending condescending contes sending \
+    condescending Khan descending condescending condor-sending condescending \
+    con's descending condor sending condor-sending condescending con's dissenting \
+    conte's ending condescending con-dissenting Condi's ending condescending contes \
+    ending condescending conned ascending con's dissenting on dissenting \
+    condor-sending con's descending condor sending condor-sending condescending \
+    con's dissenting conte's ending condescending con-dissenting Condi's ending \
+    condescending contes sending condescending conned ascending con's dissenting \
+    condor-sending condescending con's descending condor sending condor-sending \
+    condescending con's dissenting conte's ending condescending con-dissenting \
+    Condi's ending condescending contes on descending condescending Khan's descending"
 
 @app.route('/order', methods=['POST'])
 def place_order():
