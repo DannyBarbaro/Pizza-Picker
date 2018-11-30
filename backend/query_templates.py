@@ -139,3 +139,18 @@ delete_preference_set = "delete from Preference_Set where id = %s"
 #params: set_id
 #run this before you delete the preference set
 delete_preference = "delete from Preference where set_id = %s"
+
+#checks for an allergy
+#params: username, topping
+#returns 1 if the user has this allergy, 0 else
+check_allergy = "select case when exists " \
+                "(select topping from Allergy where user = %s and topping = %s) " \
+                "then 1 else 0 end"
+
+#creates a new allergy for a user
+#params: username, topping
+new_allergy = "insert into Allergy values (%s, %s)"
+
+#deletes an allergy for a user
+#params: username, topping
+delete_allergy = "delete from Allergy where user = %s and topping = %s"

@@ -248,6 +248,17 @@ def get_user_allergies(username):
         fixed.append(allergy[0])
     return jsonify(fixed)
 
+@app.route('/allergy/<username>/<topping>', methods=['POST'])
+def toggle_allergy(username, topping):
+    #Search for an allergy. Delete it if found. Otherwise create one.
+    print(sql_query(qt.check_allergy, (username, topping)))
+    if sql_query(qt.check_allergy, (username, topping))[0][0] == 1:
+        sql_execute(qt.delete_allergy, (username, topping))
+    else:
+        sql_execute(qt.new_allergy, (username, topping))
+
+    return "ssssssssssssssssssssssssssssssssssss"
+
 def make_pizzas(prefs_list): # change to also take the standard topping list?
     """
     Takes as input a list good_topping_list that contains every topping that at
