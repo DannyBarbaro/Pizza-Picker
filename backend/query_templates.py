@@ -73,7 +73,7 @@ get_friends = "select friend2 from Friends where friend1 = %s"
 #Calculates the number of orders for a user
 #params: username
 #returns the number of orders the user has been a part of
-get_order_count = "select count(order_id) from Order_Details where user = %s group by order_id"
+get_order_count = "select count(distinct order_id) from Order_Details where user = %s"
 
 #Calculates the user's top toppings
 #params: username
