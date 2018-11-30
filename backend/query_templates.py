@@ -100,8 +100,8 @@ update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(s
 deselect_current_set = "update Preference_Set set is_active = 0 where user = %s and is_active = 1"
 
 # Activates a preference set of a user, specified by title
-# params: username, title
-activate_preference_set = "update Preference_Set set is_active = 1 where user = %s and title = %s"
+# params: set_id
+activate_preference_set = "update Preference_Set set is_active = 1 where set_id = %s"
 
 #updates a preference set
 #params: title, is_active (1/0), id
