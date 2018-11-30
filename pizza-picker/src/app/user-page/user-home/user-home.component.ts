@@ -37,7 +37,7 @@ export class UserHomeComponent implements OnInit {
     if (pref.isCurrent) {
       this.errorLabel = "You cannot delete your current preference set"
     } else {
-      this.http.delete('http://localhost:8080/removePref/' + this.router.url.split('/')[2] + '/' + pref.id)
+      this.http.delete('http://localhost:8080/removePref/' + pref.id)
         .subscribe(x => this.fetchPrefSets());
     }
   }
@@ -111,7 +111,7 @@ export class UserHomeComponent implements OnInit {
         this.http.post('http://localhost:8080/prefsNew/' + this.router.url.split('/')[2], { name: this.prefSetName, preferences: this.prefDisplay })
           .subscribe(x => this.fetchPrefSets());
       } else {
-        this.http.post('http://localhost:8080/prefsUpdate/' + this.router.url.split('/')[2] + '/' + this.openModalID, { name: this.prefSetName, preferences: this.prefDisplay })
+        this.http.post('http://localhost:8080/prefsUpdate/' + this.openModalID, { name: this.prefSetName, preferences: this.prefDisplay })
           .subscribe(x => this.fetchPrefSets());
       }
       modal.hide();
