@@ -27,10 +27,8 @@ export class UserHomeComponent implements OnInit {
       .subscribe((data: PreferenceSet[]) => this.preferences = data);
   }
 
-  updateCurrent(id: number, event) {
-    if (event.target.checked) {
-      this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
-    }
+  updateCurrent(id: number) {
+    this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
   }
 
   deletePref(pref: PreferenceSet) {
@@ -119,7 +117,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   friends: String[] = [];
-  myOrder: String[] = [];
+  myOrder: String[] = [this.router.url.split('/')[2]];
   pullFriends() {
     this.http.get<String[]>('http://localhost:8080/friends/' + this.router.url.split('/')[2])
       .subscribe((data: String[]) => {
