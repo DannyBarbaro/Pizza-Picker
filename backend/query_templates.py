@@ -34,14 +34,14 @@ get_preferences = "select topping, score from Preference where set_id = %s"
 get_allergies = "select topping from Allergy where user = %s"
 
 #Get all toppings that should be considered when creating a pizza
-#params: list of usernames, same list of usernames
+#params: dict containing the user
 #returns a list of toppings such that each topping is desired by at least 1 user
 # and no user is allergic to any topping.
 get_valid_toppings = "select distinct p.topping " \
                      "from Preference_Set ps " \
                      "inner join Preference p on p.set_id = ps.id " \
-                     "where ps.user in (%s) and ps.is_active = 1 and p.topping not in " \
-                          "(select distinct topping from Allergy where user in (%s)"
+                     "where ps.user in (%(user)s and ps.is_active = 1 and p.topping not in " \
+                          "(select distinct topping from Allergy where user in (%(user)s)"
 
 #Get the score for toppings in a preference set
 #params: Preference set ID, list of toppings
@@ -66,17 +66,31 @@ get_order_count = "select count(order_id) from Order_Details where user = %s"
 #Calculates the user's top toppings
 #params: username
 #returns a list of toppings ordered by their frequency, and the number of orders they appear in
-get_favorite_toppings = "select topping, count(order_id) as frequency from Order_Details where user = %s" \
+get_favorite_toppings = "select topping, count(order_id) as frequency from Order_Details where user = %s " \
                         "group by topping order by frequency"
 
 #Calculates the user's best friend
 #params: username
 #returns a list of people they have ordered a pizza with and the number of orders with that person
-get_best_friend = "select count(o1.order_id) as frequency" \
+get_best_friend = "select count(o1.order_id) as frequency " \
                   "from Order_Details o1 " \
-                  "join Order_Details o2 on o1.order_id = o2.order_id" \
-                  "where o1.user = %s and o2.user <> o1.user" \
+                  "join Order_Details o2 on o1.order_id = o2.order_id " \
+                  "where o1.user = %s and o2.user <> o1.user " \
                   "group by o2.user order by frequency"
 
-#Updates a preference set
-#params: set_id, list of preferences
+#Updates a preference
+#params: dict containing set_id, topping, and score
+#Call this on each preference when a set is updated
+update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(score)s) " \
+                    "on duplicate key update score = %(score)s where topping = %(topping)s and set_id = %(set_id)s"
+
+#updates a preference set
+#params: title, is_active (1/0), id
+update_preference_set = "update Preference_Set set title = %s, is_active = %s where id = %s"
+
+#gets all the toppings that a user is not allergic to
+#params: username
+#returns a list of toppings
+get_user_toppings = "select t.name " \
+                    "from Topping t left join Allergy a on t.name = a.topping" \
+                    "where a.user = %s and a.topping is NULL"

@@ -55,7 +55,6 @@ CREATE TABLE Preference_Set (
   user varchar(32) NOT NULL,
   title varchar(32) DEFAULT NULL,
   is_active tinyint(1) DEFAULT NULL,
-  is_dislike tinyint(1) DEFAULT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (user) REFERENCES User(username)
 );
