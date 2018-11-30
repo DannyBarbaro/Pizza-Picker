@@ -28,7 +28,8 @@ export class UserHomeComponent implements OnInit {
   }
 
   updateCurrent(id: number) {
-    this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "");
+    this.http.post('http://localhost:8080/current/' + this.router.url.split('/')[2] + '/' + id, "")
+    .subscribe(x => this.fetchPrefSets());
   }
 
   deletePref(pref: PreferenceSet) {
