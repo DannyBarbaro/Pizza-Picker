@@ -1,5 +1,5 @@
 def format_list(list):
-    """Accepts a list and returns a format string that you can use
+    """Accepts a list of strings and returns a format string that you can use
     as a parameter for any query that accepts a list as a parameter."""
     return ','.join(['%s'] * len(list))
 
@@ -39,19 +39,20 @@ get_preferences = "select topping, score from Preference where set_id = %s"
 get_allergies = "select topping from Allergy where user = %s"
 
 #Get all toppings that should be considered when creating a pizza
-#params: dict containing the users
+#params: format sting, then list of usernames and list of same usernames
 #returns a list of toppings such that each topping is desired by at least 1 user
 # and no user is allergic to any topping.
 get_valid_toppings = "select distinct p.topping " \
                      "from Preference_Set ps " \
                      "inner join Preference p on p.set_id = ps.id " \
-                     "where ps.user in (%(users)s) and ps.is_active = 1 and p.topping not in " \
-                          "(select distinct topping from Allergy where user in (%(users)s)"
+                     "where ps.user in (%s) and ps.is_active = 1 and p.topping not in " \
+                          "(select distinct topping from Allergy where user in (%s)) " \
+                     "order by p.topping"
 
 #Get the score for toppings in a preference set
 #params: Preference set ID, list of toppings
 #returns the topping and the score of that topping
-get_topping_scores = "select topping, score from Preference where set_id = %s and topping in (%s)"
+get_topping_scores = "select topping, score from Preference where set_id = %s and topping in (%s) order by topping"
 
 #Create a new friendship between two users
 #params: username of friend1, username of friend2
@@ -83,25 +84,25 @@ get_favorite_toppings = "select topping, count(order_id) as frequency from Order
 #Calculates the user's best friend
 #params: username
 #returns a list of people they have ordered a pizza with and the number of orders with that person
-get_best_friend = "select count(o1.order_id) as frequency " \
+get_best_friend = "select o2.user, count(o1.order_id) as frequency " \
                   "from Order_Details o1 " \
                   "join Order_Details o2 on o1.order_id = o2.order_id " \
                   "where o1.user = %s and o2.user <> o1.user " \
-                  "group by o2.user order by frequency"
+                  "group by o2.user order by frequency desc"
 
 #Updates a preference
 #params: dict containing set_id, topping, and score
 #Call this on each preference when a set is updated
 update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(score)s) " \
-                    "on duplicate key update score = %(score)s where topping = %(topping)s and set_id = %(set_id)s"
+                    "on duplicate key update score = %(score)s"
 
 # Deselects the current preference set of a user
 # params: username
 deselect_current_set = "update Preference_Set set is_active = 0 where user = %s and is_active = 1"
 
 # Activates a preference set of a user, specified by title
-# params: username, title
-activate_preference_set = "update Preference_Set set is_active = 1 where user = %s and title = %s"
+# params: set_id
+activate_preference_set = "update Preference_Set set is_active = 1 where id = %s"
 
 #updates a preference set
 #params: title, is_active (1/0), id
@@ -139,3 +140,33 @@ delete_preference_set = "delete from Preference_Set where id = %s"
 #params: set_id
 #run this before you delete the preference set
 delete_preference = "delete from Preference where set_id = %s"
+
+#checks for an allergy
+#params: username, topping
+#returns 1 if the user has this allergy, 0 else
+check_allergy = "select case when exists " \
+                "(select topping from Allergy where user = %s and topping = %s) " \
+                "then 1 else 0 end"
+
+#creates a new allergy for a user
+#params: username, topping
+new_allergy = "insert into Allergy values (%s, %s)"
+
+#deletes an allergy for a user
+#params: username, topping
+delete_allergy = "delete from Allergy where user = %s and topping = %s"
+
+#creates a new order
+#params: none
+#run this before you create order details
+create_order = "insert into Food_Order (date) values (now())"
+
+#Add details about an order
+#params: order_id, username, topping
+#run this after creating the order
+add_order_details = "insert into Order_Details values (%s, %s, %s)"
+
+#Gets the id of the most recently added order
+#params: none
+#returns the id of the most recent order created
+get_recent_order = "select order_id from Food_Order order by date desc limit 1"

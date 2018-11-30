@@ -41,6 +41,7 @@ export class UserAllergiesComponent implements OnInit {
     if ((state && !this.allergicTo(top)) || (!state && this.allergicTo(top))) {
       this.http.post('http://localhost:8080/allergy/' + this.router.url.split('/')[2] + '/' + top, "")
       .subscribe(x => {
+        this.fetchToppings();
         this.fetchAllergies();
       });
     }

@@ -1,0 +1,42 @@
+Extract the zip and put the folder onto the class server
+
+Database setup:
+
+Load the db-setup.sql file into your local mySQL installation.
+Make sure the user has all permissions to modify databases.
+i.e.: mysql -u root -p < db-setup.sql
+
+Installing for running for backend dirrections:
+Go to the backend directory
+Installing python 3 dependencies:
+
+If you don't have it already, install pip3
+apt-get install pip3
+
+pip3 install configparser
+pip3 install pymysql
+pip3 install flask
+pip3 install flask_cors
+
+Adding the --user flag to any pip3 command will get around any permissions issues
+
+Run the script to start the server:
+python3 pizz_pick.py
+
+
+Installing and running for frontend directions:
+Getting Node:
+
+apt install nodejs
+apt install npm
+sudo npm cache clean -f
+sudo npm install -g n
+sudo stable n
+
+Go to the pizza-picker directory and run the following commands:
+npm install @angular/cli
+npm install bootstrap
+npm install ngx-bootstrap
+ng serve -o
+
+Open your browser of choice and navigate to localhost:4200

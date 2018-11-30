@@ -28,7 +28,7 @@ export class UserFriendsComponent implements OnInit {
 
   addFriend() {
     if (this.addField.length != 0) {
-      this.http.get<Boolean>('http://localhost:8080/userExists/' + this.router.url.split('/')[2])
+      this.http.get<Boolean>('http://localhost:8080/userExists/' + this.addField)
         .subscribe((data: Boolean) => {
           if (data) {
             this.http.post('http://localhost:8080/friend/' + this.router.url.split('/')[2] + '/' + this.addField, "")

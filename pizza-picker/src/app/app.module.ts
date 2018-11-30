@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { UserAllergiesComponent } from './user-page/user-allergies/user-allergies.component';
+import { UserOrderComponent } from './user-page/user-home/user-order/user-order.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UserAllergiesComponent } from './user-page/user-allergies/user-allergie
     UserHomeComponent,
     UserFriendsComponent,
     UserStatsComponent,
-    UserAllergiesComponent
+    UserAllergiesComponent,
+    UserOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,7 @@ import { UserAllergiesComponent } from './user-page/user-allergies/user-allergie
     ModalModule.forRoot(),
   ],
   providers: [],
-  entryComponents:[LoginSignupComponent],
+  entryComponents:[LoginSignupComponent, UserOrderComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
