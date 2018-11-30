@@ -62,7 +62,7 @@ export class LoginSignupComponent implements OnInit {
               this.signUpError = "Sorry that Username is Taken";
             }
           });
-        
+
       } else {
         this.signUpError = "Please limit username to 32 Characters"
       }
