@@ -165,27 +165,33 @@ def change_current_pref_set(username, prefSetName):
 @app.route('/order', methods=['POST'])
 def place_order():
     # body has list of <username>s participating in order
-    # not sure where the prefs are here?
-    # guessing prefs will get queried later, but then this one can't actually generate the order
+    # get their active preference sets, generate safe topping list, pass to algo
+    hungry_bois = request.headers['users']
+    active_sets = []
+    for boi in hungry_bois:
+        active_sets.append(sql_query(qt.get_active_set, (boi))[0][0])
     raise NotImplementedError
 
 @app.route('/stat/total/<username>')
 def get_total_orders(username):
     # query for total order value under <username>
     # return json with number
-    raise NotImplementedError
+    result = sql_query(qt.get_order_count, (username))
+    return jsonify(result[0][0])
 
 @app.route('/stat/bestfriend/<username>')
 def get_best_pizza_pal(username):
     # query for best friend of <username>
     # return json with username of best friend
-    raise NotImplementedError
+    result = sql_query(qt.get_best_friend, (username))
+    return jsonify(result[0][0])
 
 @app.route('/stat/favTop/<username>')
 def get_fav_top(username):
     # query for favorite topping of <username>
     # return json with topping
-    raise NotImplementedError
+    result = sql_query(qt.get_favorite_toppings, (username))
+    return jsonify(result[0][0])
 
 @app.route('/toppings/<username>')
 def get_topping_list(username):

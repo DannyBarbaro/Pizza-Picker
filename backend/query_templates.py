@@ -23,6 +23,11 @@ validate_user = "select count(1) from User where username = %s and password = %s
 #returns all preference sets that are associated with username
 get_preference_sets = "select * from Preference_Set where user = %s"
 
+# Get active preference set for a given user
+# Params: username
+# returns the set that the user has selected to be active for orders
+get_active_set = "select * from Preference_Set where user = %s and is_active = 1"
+
 #Get the preferences that make up a set
 #params: ID of the preference set
 #returns all toppings and scores for the preference
