@@ -42,7 +42,7 @@ export class UserHomeComponent implements OnInit {
   prefSetName: String = "";
   prefDisplay: Preference[] = [];
   fetchToppings() {
-    this.http.get<String[]>('http://localhost:8080/toppings/')
+    this.http.get<String[]>('http://localhost:8080/toppings')
       .subscribe((data: String[]) => {
         this.toppings = data;
       });

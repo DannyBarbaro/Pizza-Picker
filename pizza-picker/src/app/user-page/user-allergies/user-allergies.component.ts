@@ -20,7 +20,7 @@ export class UserAllergiesComponent implements OnInit {
   }
 
   fetchToppings() {
-    this.http.get<String[]>('http://localhost:8080/toppings/')
+    this.http.get<String[]>('http://localhost:8080/toppings')
       .subscribe((data: String[]) => {
         this.toppings = data;
       });
