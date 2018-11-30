@@ -141,13 +141,16 @@ def place_order():
     scores = []
     for id in actives:
         scores.append([])
-        for pair in sql_query(query, list(id) + fixed_toppings):
+        for pair in sql_query(query, [id] + fixed_toppings):
             scores[-1].append(pair[1])
 
-    make_pizzas(fixed_toppings, scores)
+    division = make_pizzas(fixed_toppings, scores)
 
-    #do more stuff with result
-    raise NotImplementedError
+    components = []
+    for part in division:
+        components.append({'toppings': part[0], 'sliceCount': part[1]})
+
+    return jsonify({'components': components})
 
 @app.route('/stat/total/<username>')
 def get_total_orders(username):
