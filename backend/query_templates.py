@@ -21,7 +21,7 @@ validate_user = "select count(1) from User where username = %s and password = %s
 #Get all preference sets for a given user
 #params: username
 #returns all preference sets that are associated with username
-get_preference_sets = "select * from Preference_set where user = %s"
+get_preference_sets = "select * from Preference_Set where user = %s"
 
 #Get the preferences that make up a set
 #params: ID of the preference set
@@ -89,6 +89,14 @@ get_best_friend = "select count(o1.order_id) as frequency " \
 #Call this on each preference when a set is updated
 update_preference = "insert into Preference values (%(topping)s, %(set_id)s, %(score)s) " \
                     "on duplicate key update score = %(score)s where topping = %(topping)s and set_id = %(set_id)s"
+
+# Deselects the current preference set of a user
+# params: username
+deselect_current_set = "update Preference_Set set is_active = 0 where user = %s and is_active = 1"
+
+# Activates a preference set of a user, specified by title
+# params: username, title
+activate_preference_set = "update Preference_Set set is_active = 1 where user = %s and title = %s"
 
 #updates a preference set
 #params: title, is_active (1/0), id
