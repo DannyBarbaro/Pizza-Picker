@@ -14,7 +14,7 @@ import { UserStatsComponent } from './user-page/user-stats/user-stats.component'
 import {FormsModule} from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { UserAllergiesComponent } from './user-allergies/user-allergies.component';
+import { UserAllergiesComponent } from './user-page/user-allergies/user-allergies.component';
 
 @NgModule({
   declarations: [
