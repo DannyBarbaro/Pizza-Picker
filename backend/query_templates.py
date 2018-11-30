@@ -39,14 +39,14 @@ get_preferences = "select topping, score from Preference where set_id = %s"
 get_allergies = "select topping from Allergy where user = %s"
 
 #Get all toppings that should be considered when creating a pizza
-#params: dict containing the user
+#params: dict containing the users
 #returns a list of toppings such that each topping is desired by at least 1 user
 # and no user is allergic to any topping.
 get_valid_toppings = "select distinct p.topping " \
                      "from Preference_Set ps " \
                      "inner join Preference p on p.set_id = ps.id " \
-                     "where ps.user in (%(user)s and ps.is_active = 1 and p.topping not in " \
-                          "(select distinct topping from Allergy where user in (%(user)s)"
+                     "where ps.user in (%(users)s) and ps.is_active = 1 and p.topping not in " \
+                          "(select distinct topping from Allergy where user in (%(users)s)"
 
 #Get the score for toppings in a preference set
 #params: Preference set ID, list of toppings
@@ -125,12 +125,10 @@ get_set_count = "select count(id) as count from Preference_Set where user = %s g
 #params: topping, set_id, score
 new_preference = "insert into Preference values (%s, %s, %s)"
 
-#gets all the toppings that a user is not allergic to
-#params: username
+#gets all the toppings
+#params: none
 #returns a list of toppings
-get_user_toppings = "select t.name " \
-                    "from Topping t left join Allergy a on t.name = a.topping" \
-                    "where a.user = %s and a.topping is NULL"
+get_toppings = "select * from Topping"
 
 #deletes a preference set
 #params: set_id

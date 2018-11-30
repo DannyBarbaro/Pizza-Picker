@@ -194,11 +194,15 @@ def get_fav_top(username):
     result = sql_query(qt.get_favorite_toppings, (username))
     return jsonify(result[0][0])
 
-@app.route('/toppings/<username>')
-def get_topping_list(username):
+@app.route('/toppings')
+def get_topping_list():
     # query for all available toppings
     # return json with list of toppings
-    raise NotImplementedError
+    toppings = sql_query(qt.get_toppings)
+    fixed = []
+    for topping in toppings:
+        fixed.append(topping[0])
+    return jsonify(fixed)
 
 @app.route('/prefs/<set_id>')
 def get_preference(set_id):
@@ -219,10 +223,32 @@ def update_preference_set(set_id):
 def make_new_preference_set(username, prefSetName):
     # body contains preferences
     # construct new preference, send to db
-    # return success/fail
-    raise NotImplementedError
+    # return ID of new set
+    pref_set = request.get_json()
 
-def make_pizzas(good_topping_list, pref_vecs):
+    #make this set active if it is the first one
+    if sql_query(qt.get_set_count, (username))[0][0] == 0:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 1))
+    else:
+        sql_execute(qt.new_preference_set, (username, pref_set['name'], 0))
+
+    #add preferences
+    set_id = sql_query(qt.get_preference_set_id, (username, pref_set['name']))
+    for pref in pref_set['prefs']:
+        sql_execute(qt.new_preference, (pref['topping'], set_id, pref['score']))
+
+    return jsonify(set_id)
+
+@app.route('/allergies/<username>')
+def get_user_allergies(username):
+    #query for all toppings the user is allergic to
+    allergies = sql_query(qt.get_allergies, (username))
+    fixed = []
+    for allergy in allergies:
+        fixed.append(allergy[0])
+    return jsonify(fixed)
+
+def make_pizzas(prefs_list): # change to also take the standard topping list?
     """
     Takes as input a list good_topping_list that contains every topping that at
     least one user in the order likes and no user in the order is allergic to,
