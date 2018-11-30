@@ -84,10 +84,6 @@ get_best_friend = "select count(o1.order_id) as frequency " \
                   "where o1.user = %s and o2.user <> o1.user " \
                   "group by o2.user order by frequency"
 
-<<<<<<< HEAD
-#Updates a preference set
-#params: set_id, list of preferences
-=======
 #Updates a preference
 #params: dict containing set_id, topping, and score
 #Call this on each preference when a set is updated
@@ -114,4 +110,3 @@ delete_preference_set = "delete from Preference_Set where id = %s"
 #params: set_id
 #run this before you delete the preference set
 delete_preference = "delete from Preference where set_id = %s"
->>>>>>> 697c27b3202520c27d580956e51413de584214ff
