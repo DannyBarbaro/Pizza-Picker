@@ -1,0 +1,26 @@
+p {
+  font-size: 30px;
+}
+
+h5 {
+  font-size: 40px
+}
+
+#middle-card {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#card {
+  width: 25rem;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#wide-card {
+  width: 30rem;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

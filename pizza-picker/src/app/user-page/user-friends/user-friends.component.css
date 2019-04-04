@@ -1,0 +1,15 @@
+input {
+  width: 30%;
+}
+
+th {
+  font-size: 20px;
+}
+
+td {
+  font-size: 25px;
+}
+
+#friends {
+  padding-top: 20px;
+}

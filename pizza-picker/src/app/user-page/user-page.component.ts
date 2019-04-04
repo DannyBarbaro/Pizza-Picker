@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class UserPageComponent implements OnInit {
 
-  username: String = "DannyB";
+  username: String = "";
   viewState: String = "userhome";
 
   constructor(private router: Router) { }

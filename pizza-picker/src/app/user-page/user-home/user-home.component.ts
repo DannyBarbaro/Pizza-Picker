@@ -16,6 +16,15 @@ export class UserHomeComponent implements OnInit {
   errorLabel: String = "";
   modalPreferences: Preference[] = [];
   bsModalRef: BsModalRef;
+  toppings: String[] = [];
+  allergies: String[] = [];
+  prefSetName: String = "";
+  prefDisplay: Preference[] = [];
+  flag: boolean = false;
+  openModalID: number = -1;
+  friends: String[] = [];
+  myOrder: String[] = [];
+  
   constructor(private router: Router, private http: HttpClient, private modalService: BsModalService) { }
 
   ngOnInit() {
@@ -34,6 +43,7 @@ export class UserHomeComponent implements OnInit {
   }
 
   deletePref(pref: PreferenceSet) {
+    this.errorLabel = ""
     if (pref.isCurrent) {
       this.errorLabel = "You cannot delete your current preference set"
     } else {
@@ -42,12 +52,6 @@ export class UserHomeComponent implements OnInit {
     }
   }
 
-  toppings: String[] = [];
-  allergies: String[] = [];
-  prefSetName: String = "";
-  prefDisplay: Preference[] = [];
-  flag: boolean = false;
-  openModalID: number = -1;
   fetchToppings() {
     this.http.get<String[]>('http://localhost:8080/toppings')
       .subscribe((data: String[]) => {
@@ -118,8 +122,6 @@ export class UserHomeComponent implements OnInit {
     }
   }
 
-  friends: String[] = [];
-  myOrder: String[] = [];
   pullFriends() {
     this.http.get<String[]>('http://localhost:8080/friends/' + this.router.url.split('/')[2])
       .subscribe((data: String[]) => {

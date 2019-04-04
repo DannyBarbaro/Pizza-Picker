@@ -10,9 +10,9 @@
     <input type="text" class="form-control" placeholder="Username" [(ngModel)]="username">
     <h4>Password:</h4>
     <input type="password" class="form-control" placeholder="Password" [(ngModel)]="password">
-    <div style="padding-top: 10px;">
-      <button type="button" class="btn btn-primary" style="padding-top: 10px;" (click)="signIn()">Sign in</button>
-      <label style="padding-left: 10px; color: red">{{ entryError }}</label>
+    <div id="done">
+      <button type="button" class="btn btn-primary" (click)="signIn()">Sign in</button>
+      <label>{{ entryError }}</label>
     </div>
     <button type="button" class="btn btn-link" (click)="switchModal()">New here? Sign Up!</button>
     <button type="button" class="btn btn-link" (click)="forgotPass()">Forgot your password?</button>
@@ -33,9 +33,9 @@
     <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newPassword">
     <h4>Confirm Password:</h4>
     <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newPasswordConfirm">
-    <div style="padding-top: 10px;">
-      <button type="button" class="btn btn-primary" style="padding-top: 10px;" (click)="signUp()">Sign up</button>
-      <label style="padding-left: 10px; color: red">{{ signUpError }}</label>
+    <div id="done">
+      <button type="button" class="btn btn-primary" (click)="signUp()">Sign up</button>
+      <label>{{ signUpError }}</label>
     </div>
     <button type="button" class="btn btn-link" (click)="switchModal()">Already have an Account? Sign In!</button>
   </div>

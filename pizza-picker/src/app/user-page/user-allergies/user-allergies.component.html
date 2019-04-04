@@ -3,7 +3,7 @@
 <table class="table table-hover">
   <tbody>
     <tr *ngFor="let top of toppings">
-      <td style="font-size: 25px">{{ top }}</td>
+      <td>{{ top }}</td>
       <td>
         <div class="btn-group">
           <label class="btn btn-outline-primary" [class.active]="top !== '' && !allergicTo(top)" (click)="allergyChange(top, false)">Okay</label>

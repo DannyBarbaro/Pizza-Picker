@@ -1,18 +1,18 @@
 <h1>Welcome to Pizza Picker</h1>
 <button type="button" class="btn btn-primary" [disabled]="preferences.length === 0" (click)="pullFriends(); orderModal.show()">Create New Order</button>
 <label>{{ errorLabel }}</label>
-<div style="padding-top: 20px; padding-bottom: 20px;">
+<div id="main-view">
   <table class="table table-hover">
     <thead>
-      <th style="font-size: 25px">Current Preference</th>
-      <th style="font-size: 25px">Preference Name</th>
+      <th>Current Preference</th>
+      <th>Preference Name</th>
       <th></th>
       <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let pref of preferences">
         <td><button type="button" class="btn btn-outline-primary" [class.active]="pref.isCurrent" (click)="updateCurrent(pref.id);">Active</button></td>
-        <td style="font-size: 25px">{{ pref.name }}</td>
+        <td>{{ pref.name }}</td>
         <td><button type="button" class="btn btn-primary" (click)="openPref(pref.prefs, pref.id, pref.name); lgModal.show();">Edit</button></td>
         <td><button type="button" class="btn btn-danger" (click)="deletePref(pref)">Delete</button></td>
       </tr>
@@ -32,9 +32,9 @@
       </div>
       <div class="modal-body">
         <h6>Preference Name:</h6>
-        <input type="text" style="width: 50%" class="form-control" placeholder="Every good pizza needs a name!"
+        <input type="text" class="form-control" placeholder="Every good pizza needs a name!"
           [(ngModel)]="prefSetName">
-        <ul class="list-group" style="padding-top: 10px">
+        <ul class="list-group">
           <ng-container *ngFor="let pref of prefDisplay">
             <li class="list-group-item" *ngIf="!allergicTo(top)">
               <h6>{{ pref.topping }}</h6>
@@ -49,7 +49,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default mr-auto" (click)="lgModal.hide()">Cancel</button>
-        <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="savePref(lgModal);">Save</button>
+        <button type="button" class="btn btn-primary" id="right-button" (click)="savePref(lgModal);">Save</button>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="modal-body">
         <form class="form-inline">
-          <div class="col-md-6" style="height: 500px; overflow: scroll;">
+          <div class="col-md-6" id="body-column">
             <h3>My Friends</h3>
             <ul class="list-group">
               <li class="list-group-item" *ngFor="let friend of friends">
@@ -75,7 +75,7 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-6" style="height: 500px; overflow: scroll;">
+          <div class="col-md-6">
             <h3>My Order</h3>
             <ul class="list-group">
               <li class="list-group-item">{{ router.url.split('/')[2] }}</li>
@@ -89,7 +89,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default mr-auto" (click)="orderModal.hide()">Cancel</button>
-        <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="placeOrder(); orderModal.hide()">Place
+        <button type="button" class="btn btn-primary" id="right-button" (click)="placeOrder(); orderModal.hide()">Place
           Order</button>
       </div>
     </div>
